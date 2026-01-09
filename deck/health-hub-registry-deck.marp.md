@@ -18,7 +18,8 @@ section {
 section.dense {
   padding: 12px 28px 18px 28px;
   font-size: 20px;
-  line-height: 1.2;
+  line-height: 1.05;
+  margin-top: 0 !important;
 }
 
 /* Remove extra top margin from first element */
