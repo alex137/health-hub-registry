@@ -1,4 +1,4 @@
-name: Build Deck PDF
+name: Build Deck PDFs
 
 on:
   push:
@@ -21,24 +21,34 @@ jobs:
       - name: Install Marp CLI
         run: npm install -g @marp-team/marp-cli
 
-      - name: Build PDF
+      - name: Build Policy Deck PDF
         run: |
           marp deck/health-hub-registry-deck.marp.md \
             --pdf \
             --output health-hub-registry-deck.pdf
+
+      - name: Build Implementation Deck PDF
+        run: |
+          marp deck/health-hub-registry-impl-deck.marp.md \
+            --pdf \
+            --output health-hub-registry-impl-deck.pdf
 
       - name: Create/Update Release "latest"
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: latest
-          name: Latest Deck
+          name: Latest Decks
           allowUpdates: true
           replacesArtifacts: true
-          artifacts: health-hub-registry-deck.pdf
+          artifacts: |
+            health-hub-registry-deck.pdf
+            health-hub-registry-impl-deck.pdf
           draft: false
           prerelease: false
           body: |
-            Auto-generated PDF from Marp source.
+            Auto-generated PDFs from Marp sources.
             Commit: ${{ github.sha }}
-            Source: deck/health-hub-registry-deck.marp.md
+
+            - Policy source: deck/health-hub-registry-deck.marp.md
+            - Impl source: deck/health-hub-registry-impl-deck.marp.md
