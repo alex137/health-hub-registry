@@ -341,8 +341,9 @@ Payer investigators request access via a **Consent Request Direct Message** *(Ap
 
 **Bottom line:** Prior-auth relief is a near-term adoption driver.
 
----
+----
 
+<!-- _class: dense -->
 # Benefit: Auditable Claims + Sponsor Oversight
 
 When documentation is slow, so are prior auth, audits, and disputes.
