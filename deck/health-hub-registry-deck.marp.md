@@ -166,11 +166,28 @@ https://github.com/alex137/health-hub-registry
 **Bottom line:** Payment incentives + scalable enforcement can create the first universal, patient-controlled interoperability layer.
 
 ---
+
+# Hubs as the Primary Patient Channel
+
+HHS should also grant safe harbor for hub-mediated delivery (SMS, WhatsApp, email) under defined safeguards.
+Authorized, record-aware hubs become the default coordination channel — replacing portals.
+
+* **Unified threads:** persistent hub-mediated conversations across providers (thread_id)
+* **Care coordination:** scheduling, referrals, transitions, discharge follow-up
+* **Medication + pharmacy workflows:** refills, substitutions, adherence outreach
+* **Coverage workflows:** prior-auth status, benefits questions, appeals
+
+Result: one record-aware channel for patients and providers.
+
+---
+
 # What Universal Hubs Enable
 
-Once hubs work across providers,
+Once hubs work reliably across providers,
+the system gains new capabilities — beyond record access.
 
-here's what becomes possible at scale.
+Emergency continuity, faster prior auth, safety alerts, real-world evidence,
+and pharmacy integration all become automatic.
 
 
 ---
@@ -201,42 +218,49 @@ Payer investigators request access via a **Consent Request Direct Message** *(Ap
 
 ---
 
-# Hub-Era Provider Direct Messaging
+# Provider Messaging Becomes Record-Linked Collaboration
 
-When records are universal, messaging becomes **contextual, routable, and attachable**.
+When hubs make cross-provider records universal, messaging stops being “fax in disguise.”
 
-As hubs make cross-provider records ubiquitous, Direct messages MUST identify **sender type** and **patient/record context** for fast triage.
+**Messages can point to the exact record context:**
+- “Here’s the abnormal lab” *(opens that lab + trend + meds)*
+- “Why was anticoagulation stopped?” *(opens discharge note + orders)*
+- “Please confirm allergy status” *(opens allergy history + recent reactions)*
 
-**Provider↔Provider (record questions):** Providers MUST include a **patient- or record-specific messaging endpoint** in FHIR Provenance; other providers MUST use it when present.
+Providers communicate with **shared context**, not summaries.
 
-**Hub↔Provider (patient-authorized):** Providers MUST accept messages from **approved hubs** at the same endpoint used for FHIR subscription fulfillment; replies route to sender endpoint.
-
-Required metadata (sender_role, message_category) enables triage, routing, and response tracking (Appendix).
-
-
-# Hub-Era Provider Direct Messaging
-
-As hubs make cross-provider records ubiquitous, Direct messages MUST identify **sender type** and **patient/record context** for fast triage.
-
-**Provider↔Provider (record questions):** Providers MUST include a **patient- or record-specific messaging endpoint** in FHIR Provenance; other providers MUST use it when present.
-
-**Hub↔Provider (patient-authorized):** Providers MUST accept messages from **approved hubs** at the same endpoint used for FHIR subscription fulfillment; replies route to sender endpoint.
-
-Required metadata (sender_role, message_category) enables triage, routing, and response tracking (Appendix).
+**Result:** fewer mistakes, less back-and-forth, faster decisions.
 
 ---
 
-# Hubs as the Primary Patient Channel
+# Patient-Scoped Care Channels 
+###Across Health Systems
 
-Hubs can become the default place patients communicate about care — replacing fragmented portals.
+If providers attach messages to the shared record, every patient gains a persistent care channel:
 
-- Providers and pharmacies SHOULD accept hub-mediated threads for clinical questions, refills, substitutions, and follow-ups.
+- A single thread shared across the care team (even across health systems)
+- Visible to nurses, MAs, care managers, and specialists involved in care
+- Messages persist with the record — not trapped in one portal
 
-- Payers SHOULD support hub-mediated threads for coverage questions, prior-auth status, claims issues, and appeals.
+This creates **common knowledge**: everyone sees the same aggregate record *and* the same conversation history.
 
-- Hubs SHOULD mediate scheduling and care-transition coordination across providers.
+**Result:** care coordination becomes continuous, not episodic.
 
-- HHS SHOULD grant SMS/WhatsApp safe harbor for hub-mediated delivery under defined safeguards.
+---
+
+# AI-Ready Triage + Coordination
+
+Once messaging is record-linked and shared across the care team:
+
+- AI agents can surface relevant record context directly in the thread
+- Route messages to the right team member automatically
+- Draft replies with one-click send
+- Monitor labs, refills, and transitions and alert when something changes
+
+This enables **automation without fragmentation** — 
+because every action is grounded in shared record context.
+
+**Result:** better outcomes, lower clinician burden, fewer coordination failures.
 
 ---
 
@@ -264,7 +288,7 @@ Research hubs enable near-real-time adverse event capture, real-world controls, 
 
 ---
 
-# Completing the Data Plane: Pharmacy Participation
+# Completing Data:  Pharmacy Participation
 
 *Medications are the most frequent and error-prone part of care — but today's interoperability layer misses the dispense reality.* Today, neither providers nor hubs can reliably know whether a prescribed medication was **filled, substituted, refilled, or abandoned**.
 
@@ -302,36 +326,20 @@ When that layer exists, providers coordinate from a shared record, prescriptions
 
 ---
 
-# Questions?
+# Contact / Next Steps
 
-S. Alexander Jacobson
-alex@137ventures.com
+S. Alexander Jacobson \<alex@137ventures.com\>
+
+This is a draft in active iteration — I’d love:  
+- questions on what this is really solving / how it should work  
+- suggestions to improve the design (technical or policy)  
+- opportunities to walk through it and discuss adoption paths  
 
 ---
-
-# Appendix ToC (1 of 2)
+# Appendix
 
 1. [Common Questions](#common-questions)
-2. [Protocol Assumptions](#protocol-assumptions)
-3. [Identifier Hash System](#identifier-hash-system)
-4. [SyncURL Protocol](#syncurl-protocol)
-5. [SyncURL Push Option](#syncurl-push-option)
-6. [Endpoint→Hash Tables](#endpoint-hash-tables)
-7. [Registry Match Tables](#registry-match-tables)
-8. [Polling Responsibilities](#polling-responsibilities)
-
----
-
-# Appendix ToC (2 of 2)
-
-1. [Payer Beneficiary Endpoint (Hub View)](#beneficiary-endpoint-hub-view)
-2. [Payer Beneficiary Endpoint (Provider View)](#beneficiary-endpoint-provider-view)
-3. [Registry Trust Establishment](#registry-trust-establishment)
-4. [Trust Enforcement + Revocation](#trust-enforcement-revocation)
-5. [Required Direct Message Metadata](#required-direct-message-metadata)
-6. [Consent Request + Grant](#consent-request-grant)
-7. [Targeted Direct Message Headers](#tdm-headers)
-
+2. [Technical Appendix](#technical-appendix)
 ---
 
 <a id="common-questions"></a>
@@ -369,15 +377,25 @@ Patients without payer coverage won't have payers to confirm hub authorizations.
 This is a policy decision, not a protocol requirement.
 
 ---
+
+<a id="technical-appendix"></a>
+
+# Appendix: Technical Appendix
+
+Detailed protocol and implementation slides.
+
+(Everything below is optional reading for implementers.)
+
+---
 <a id="protocol-assumptions"></a>
 
 # Appendix: Protocol Assumptions
 
 - All system-to-system communication uses **HTTPS + mTLS**.
 - Participants are authorized by **certificate Policy OIDs**.
-- Control plane: **SyncURL** (routing, approvals, endpoint manifests).
+- Control plane: **STP** (routing, approvals, endpoint manifests).
 - Data plane: **FHIR** (records/benefits/subscriptions) + **Direct**.
-- Hubs subscribe promptly to newly discovered provider endpoints.
+- Providers promptly STP notify newly discovered approved hub user urls.
 - Missing payer endpoints or outages are not revocations; prior status remains authoritative until explicit update.
 
 ---
@@ -388,12 +406,10 @@ This is a policy decision, not a protocol requirement.
 
 - **Trust anchor bundle:** Registry root URL serves a PEM bundle of trusted CA roots for authenticating system participants.
 
-- **mTLS required:** All system-to-system communication MUST use mutual TLS and reject connections that fail chain validation.
-
-- **Role-based certificates:** Participant certificates MUST include a **Policy OID** in `Certificate Policies` identifying role:
+- **Role-based certificates:** Participant certs include a **Policy OID** identifying role:
   `payer | hub | provider | emergency_provider | tdm_publisher | direct_distributor`
 
-- **Provider identity binding:** Provider certificates MUST encode **NPI** in `SubjectAltName.otherName` using the designated NPI OID.
+- **Provider identity binding:** Provider certs encode **NPI** in `SubjectAltName.otherName` using the designated NPI OID.
 
 ---
 
@@ -401,197 +417,231 @@ This is a policy decision, not a protocol requirement.
 
 # Appendix: Trust Enforcement + Revocation
 
-- **Role enforcement:** Systems MUST authorize requests based on certificate role (Policy OID) and reject invalid role usage.
+- **Role enforcement:** Systems authorize requests based on certificate role (Policy OID) and reject invalid role usage.
 
-- **Revocation:** Registry publishes revoked certificate serial numbers via SyncURL at:
-  `[rootURL]/crl`
-  Participants MUST reject connections involving revoked serials.
+- **Revocation feed:** Registry publishes revoked certificate serial numbers via STP at: `[rootURL]/crl`
 
-- **OID registry:** The registry publishes the authoritative list of role Policy OIDs (and the NPI OID) in the open-source hash/spec repository.
+- **OID registry:** The registry publishes the authoritative list of role Policy OIDs (and the NPI OID) in the open-source spec repository.
 
 ----
 
+<a id="emtp"></a>
 
-<a id="identifier-hash-system"></a>
+# Appendix: EMTP (Ephemeral Match Tokens)
 
-# Appendix: Identifier Hashes (Not NPIs)
+Participants post privacy-preserving match tokens derived from identifier tuples (name, DOB, phone, address, optional ID digits). Tokens rotate over time and are computed locally using registry-distributed keys.
 
-Payers, providers, and hubs MUST use the Registry **hashing function** (source code at [registryRoot]/code) to generate the matchable **HMAC identifier hashes** they post with endpoint URLs.
+Keys are distributed only to credentialed participants and rotate on a fixed schedule (e.g., monthly).
 
-The function generates hashes of **name, DOB, phone, address tuple variants** using current + prior **registry keys.**
+**No de facto NPI:** The registry matches tokens and returns endpoint crosswalks, but never receives demographics or stores persistent identifiers.
 
-Each month, the Registry distributes **rotating HMAC keys** to **Credentialed Participants** (HIPAA entities / BAs). Restricted key access is a **privacy circuit-breaker**: the Registry can revoke keys for misuse.
+**Full spec + reference code:** see EMTP repo.
 
-**Rotating keys + no demographics → ephemeral hashes; no de facto NPI.**
+---
+<a id="stp"></a>
+
+# Appendix: STP (State Transfer Protocol)
+
+The registry uses **STP** to serve and synchronize tables as **append-only change logs over HTTP**, with:
+
+- **Monotonic sequence numbers** for auditability + replay  
+- **Delta sync** (`since_id`) and **gap recovery**  
+- **Idempotent processing** (clients tolerate duplicates)
+
+Participants MAY also expose **STP Notify URLs** to announce new tables or signal table updates.
+
+**Full spec + reference implementations:** see STP repo.
+
+*In this deck, “STP URL” means a URL that serves STP rows via HTTP GET.*
+
 
 ---
 
-<a id="endpoint-hash-tables"></a>
+<a id="endpoint-token-tables"></a>
 
-# Appendix: Endpoint→Hash Tables (Registry Inputs)
+# Appendix: Bootstrap (EMTP Tables)
 
-**Schema (payers/providers/hubs):**
+Participants are providers, payers, and hubs.  
+Participants STP notify the registry root of STPs containing EMTP match tokens.
+These STPs must also take STP notification of Registry Match STPs.
 
-`[SeqNo] \t [TS] \t [+/-] \t [Endpoint_URL] \t [Identity_Hashes...]`
+**STP schema:** `emtp_table`  
+`[SeqNo] \t [TS] \t [+/-] \t [URL] \t [EMTP_Tokens...]`
 
-- Primary key = Endpoint_URL
-- Record = whitespace-separated HMAC hashes (hex)
-- `-` Endpoint_URL revokes the endpoint/hash binding
+- `URL` uniquely identifies an individual at that participant.
+- `EMTP_Tokens`: whitespace-separated tokens for identifier tuples.
+
+
+
 
 ---
-
 <a id="registry-match-tables"></a>
 
-# Appendix: Registry Match Tables
+# Appendix: Registry Match STPs
 
-- **Payer match stream:** [Beneficiary_Endpoint_URL] → [Hub_User_Endpoint_URLs...]
-- **Provider match stream:** [Patient_Endpoint_URL] → [Payer_Beneficiary_Endpoint_URLs...]
-- **Hub match stream:** [User_Endpoint_URL] → [Payer_Beneficiary_Endpoint_URLs...]
+**Crosswalk URLs from matching EMTP tokens**
 
-The match streams are authoritative for which endpoints exist for a given participant.
+**STP schema:** `registry_match_stream`  
+`[SeqNo] \t [TS] \t [+/-] \t [Subject_URL] \t [Matched_URLs...]`
 
----
+- `Matched_URLs`: whitespace-separated; matched via EMTP token overlap.
 
-<a id="syncurl-protocol"></a>
+**Streams:**
+- **Payer:** `Beneficiary_URL → Hub_User_URLs...`
+- **Provider:** `Patient_URL → Payer_Beneficiary_URLs...`
+- **Hub:** `User_URL → Payer_Beneficiary_URLs...`
 
-
-
-
-# Appendix: SyncURL Streaming Tables 
-
-**Format:** HTTP `GET` returns TSV rows:
-`[SeqNo] \t [RFC3339 UTC Time Stamp] \t [+/-] \t [Primary Key] \t [Record]`
-
-**Ordering + auditability:** Servers MUST return rows in strictly increasing `SeqNo` order and retain the full append-only stream.  Clients MUST tolerate duplicate rows (same `SeqNo`) and process idempotently.
-
-**Content-Type:** `application/syncurl+tsv; schema=<schema_id>; version=<n>`
-
-**Actions:** + = add/replace, - = delete.
-
-**Delta sync:** `?since_id=N` returns rows with SeqNo > N.  `?since_id=-N` returns the last N rows. If absent, treat as `since_id=0`.
-
-**Compact view:** `?view=active` MAY omit keys with latest row `-`.
-
-**Long-poll:** Servers SHOULD stream until timeout or no rows available, then close; clients reconnect with last seen SeqNo.
+Match streams are authoritative for which foreign URLs are in-scope.
 
 ---
+<a id="payer-authorization"></a>
 
-<a id="syncurl-notify-option"></a>
+# Appendix: Payer Approval Stream Serving
 
-# **Appendix: SyncURL Notify**
+Payers expose **beneficiary URLs** that act as stable entry points for approval state.
 
-Participants MAY expose **notify URLs** that peers can POST to in order to announce a **new table** the recipient should begin monitoring, or signal that an existing table **has new rows**.
+- Providers beneficiary URLs redirect to **Provider_STP** streams.
+- Hubs beneficiary URLs redirect to  **Hub_STP** streams.
 
-POST <notify_url>
-Content-Type: application/x-www-form-urlencoded
-Body MUST include: table=<SyncURL_Table_URL>
+**Authorization:** Streams MUST scope results to client mTLS identity:
+- Providers see only hubs approved for their patients.
+- Hubs see only approval status for their users.
 
-`table` MUST be a SyncURL table URL. Recipients track last processed `SeqNo` and GET with `since_id` as needed to retrieve new rows and recover gaps.
-
-Notify POSTs are idempotent and may be retried.
-
----
-
-<a id="polling-responsibilities"></a>
-
-# Appendix: Polling Responsibilities
-
-The registry match stream is the authoritative mapping from identifier hashes → endpoint URLs. Clients MUST long-poll their registry match stream and begin monitoring newly returned endpoints.
-
-- **Hubs** receive **Beneficiary_Endpoint_URLs** per user and MUST monitor each for approval status (`Pending | Approved | Denied`).
-
-- **Providers** receive **Beneficiary_Endpoint_URLs** per patient and MUST monitor each for hub approvals/revocations (`+/- Hub_User_Endpoint_URL`).
-
-- **Payers** receive **Hub_User_Endpoint_URLs** per beneficiary and MUST provide approval/denial user interface (also reachable via `Pending → Payer_Approval_URL`).
+Payers should keep Beneficiary_URL redirect stable; migrate streams by issuing new ones for their beneficiaries. 
 
 ---
 
 <a id="beneficiary-endpoint-hub-view"></a>
 
-# Appendix: Payer Beneficiary Endpoint (Hub View)
+# Appendix: Hub STPs
 
-`[SeqNo] \t [TS] \t [+/-] \t [Pending|Approved|Denied] \t [URL]`
+Hubs deliver updates on hub user approval statuses.
 
-- `Pending → Payer_Approval_URL` (not revocation)
-- `Approved → FHIR_Plan_URL` (subscribe)
-- `Denied → Reason_URL` (denied/revoked)
+**STP schema:** `hub_approval_stream`  
+`[SeqNo] \t [TS] \t [+/-] \t [Hub_User_URL] \t [Status] \t [URL]`
 
-If `FHIR_Plan_URL` changes, hub MUST re-subscribe.
+- `Status ∈ {Pending | Approved | Denied}`
+- `Pending → Payer_Approval_URL`
+- `Approved → FHIR_Plan_URL`
+- `Denied → Reason_URL`
 
-Delete user records + terminate provider subscriptions only when Denied at all payer endpoints returned by the registry.
+If `FHIR_Plan_URL` changes, hub re-subscribes.  
+Delete records + terminate provider subscriptions only when **Denied across all active payers**.
 
 ---
 
 <a id="beneficiary-endpoint-provider-view"></a>
 
-# Appendix: Payer Beneficiary Endpoint (Provider View)
+# Appendix: Provider STPs
 
-Provider-facing SyncURL table returned based on provider mTLS identity:
+Provider_STPs deliver updates on patient-approved hubs.
 
-`[SeqNo] \t [TS] \t [+/-] \t [Hub_User_Endpoint_URL] \t [optional metadata]`
+**STP schema:** `provider_approval_stream`  
+`[SeqNo] \t [TS] \t [+/-] \t [Patient_URL] \t [Hub_User_URLs...]`
 
-- Approved hubs appear via `+ Hub_User_Endpoint_URL`
-- Revocation is `- Hub_User_Endpoint_URL` (**explicit**)
+- `Hub_User_URLs...` is whitespace-separated approved hub URLs.
+- Approval is revoked when a hub disappears from the list.
 
 **Semantics**
-
-- Begin/maintain exchange when + Hub_User_Endpoint_URL appears.
-- Terminate *only* when `- Hub_User_Endpoint_URL` is seen from all payer endpoints returned by the registry.
+- Begin/maintain exchange when a hub appears in the list.
+- Terminate only when the hub drops from **all active payers** lists.
 
 ---
 
 <a id="endpoint-manifest"></a>
 
-# Appendix: Provider↔Hub Endpoint Exchange
+# Appendix: Manifest Exchange
 
-Providers and hubs exchange relationship endpoints via SyncURL "manifest" tables.
+Providers and hubs exchange relationship endpoints via STP manifest tables:
 
-`[SeqNo]\t[TS]\t+\t[endpoint_type]\t[URL]`
+**STP schema ** `endpoint_manifest`: `[SeqNo]\t[TS]\t+\t[endpoint_type]\t[URL]`
 
-**Endpoint types:** `fhir_subscribe` | `fhir_read` | `direct_message` | `manifest_notify`
+**Endpoint types:** `fhir_subscribe` | `fhir_read` | `direct_message` | `notify`
 
-**Change propagation:** When a participant updates its manifest, it POSTs to the peer’s `manifest_notify` URL with `table=Manifest_URL`. Peers may re-GET the manifest (authoritative).
+**Change propagation:** When a participant updates its manifest, it sends an STP Notify to the peer’s `notify` URL with `table=<sender_manifest_url>`. Peers re-GET the manifest (authoritative).
 
+Manifests SHOULD include `notify` for change propagation w/o polling.
 Unknown `endpoint_type` values MUST NOT break clients.
 
 ----
 
-<a id="endpoint-manifest-example"></a>
+<a id="endpoint-manifest-example-1"></a>
 
-# Appendix: Endpoint Manifest — Example
+# Appendix: Manifest — Example (1/3)
 
-**Provider discovers:** `Hub_User_Endpoint_URL`
+**Goal:** Provider discovers a new `Hub_User_URL` and shares its manifest.
 
-1) **Provider → Hub (announce + give manifest URL)**  
-`POST Hub_User_Endpoint_URL?table=Provider_Manifest_URL` 
+### 1) Provider → Hub (announce + give manifest table)
 
-2) **Hub → Provider (GET provider manifest)**  
+`POST Hub_User_URL`
+`Content-Type: application/x-www-form-urlencoded`
+
+`table=Provider_Manifest_URL`
+
+---
+
+# Appendix: Manifest — Example (2/3)
+
+### 2) Hub → Provider (fetch provider manifest)
+
 `GET Provider_Manifest_URL?since_id=0`
 
-Returns (SyncURL rows):  
+Returns rows:  
 `+ fhir_subscribe   https://prov.com/fhir/sub`  
 `+ fhir_read        https://prov.com/fhir/read`  
 `+ direct_message   https://prov.com/direct`  
-`+ manifest_notify  https://prov.com/notify`  
-
-3) **Provider → Hub (GET hub manifest)**  
-`GET Hub_User_Endpoint_URL?since_id=0`
-
-**If hub endpoints change:**  
-Hub `POST https://prov.com/notify?table=Hub_Manifest_URL` → Provider re-GETs `Hub_Manifest_URL` *(authoritative)*.
----
-
-<a id="required-direct-message-metadata"></a>
-
-# Appendix: Required Direct Message Metadata
-
-`sender_role: provider | hub | patient | proxy | payer | pharmacy | emergency_provider`
-
-`message_category: clinical | scheduling | administrative | billing | coverage | prior_auth | claims | appeal | refill | pharmacy | other`
-
-Unknown values MUST be displayed but MUST NOT cause rejection.
+`+ notify           https://prov.com/notify`
 
 ---
+
+<a id="endpoint-manifest-example-2"></a>
+
+# Appendix: Manifest — Example (3/3)
+
+### 3) Provider → Hub (fetch hub manifest)
+
+`GET Hub_User_URL?since_id=0`
+
+Hub returns its manifest rows (same schema).
+
+### If the hub manifest changes later:
+
+Hub notifies the provider’s notify URL:  
+`POST https://prov.com/notify`
+`table=Hub_Manifest_URL`
+
+Provider re-GETs `Hub_Manifest_URL` *(authoritative)*.
+
+---
+
+<a id="direct-message-required-metadata"></a>
+
+# Appendix: Direct Message Metadata (Required)
+
+Direct messages MUST include:
+
+- `message_id`: stable identifier for the message object (may be a URL)
+- `sender_role`: provider | hub | patient | proxy | payer | pharmacy | emergency_provider
+- `message_category`: clinical | scheduling | administrative | billing | coverage | prior_auth | claims | appeal | refill | pharmacy | other
+
+Unknown values MUST be displayed and MUST NOT cause rejection.
+
+----
+
+<a id="direct-message-recommended-metadata"></a>
+
+# Appendix: Direct Message Metadata (Recommended)
+
+To enable cross-system collaboration, Direct messages SHOULD include:
+
+- `thread_id`: stable identifier for a conversation thread
+- `patient_ref`: reference to patient identity context shared by both systems
+- `record_pointer` (optional): pointer to relevant record context  
+  *(FHIR Resource reference + Provenance or equivalent)*
+
+Providers MAY route or triage messages differently based on `sender_role` + `message_category`.
+
+----
 
 <a id="consent-request-grant"></a>
 
@@ -599,17 +649,19 @@ Unknown values MUST be displayed but MUST NOT cause rejection.
 
 **Used for prior-auth, audit, and research**
 
-**Requests:** `message_category: consent_request` MUST include: `requestor_id`, `purpose`, `scope`, `expires_at`, `consent_request_url`
-`consent_request_url` MUST return canonical terms and accept SyncURL POSTs.
+**Requests:** `message_category: consent_request` MUST include:  `requestor_id`, `purpose`, `scope`, `expires_at`, `consent_request_notify_url`
 
-**Grants:** Upon approval, hub POSTs SyncURL rows:
-`[SeqNo] \t [Time] \t + \t [Hub_User_Endpoint_URL] \t [Identity_Hashes...]`
-(Optional: `table=Hub_Grant_Stream_URL` for replay/polling.)
+**Grants:** Upon approval, hub exposes an **STP grant table** and sends an **STP Notify** to `consent_request_notify_url`.
+
+**Grant Schema:**
+`[SeqNo] \t [TS] \t [+/-] \t [Hub_User_Endpoint_URL] \t [EMTP_Match_Tokens..]`
 
 Hubs MUST support immediate revocation + audit logging.
 
 ---
 
+
+---
 <a id="tdm-headers"></a>
 
 # Appendix: TDM Required Headers
