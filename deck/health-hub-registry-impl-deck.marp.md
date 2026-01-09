@@ -318,8 +318,7 @@ The registry serves participant-specific **match streams** as SURLs.
 
 - `Matched_NURLs`: whitespace-separated NURLs matched via EMTP token overlap.
 - **Payers:** hub users, sponsor member/employees, and patients
-- **Hubs** payer beneficiaries 
-- **Providers**: beneficiaries
+- **Hubs & Providers** payer beneficiaries 
 - **Sponsors**: beneficiaries and providers. 
 
 Match streams are authoritative for which foreign URLs are in-scope.

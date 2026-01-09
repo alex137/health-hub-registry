@@ -322,7 +322,7 @@ and pharmacy integration all become automatic.
 
 **Provider authorization policy:** Hubs may require user confirmation or auto-approve provider requests based on patient preferences + hub policy (e.g., provider reputation, prior relationship, context). Requests using an **emergency provider TLS certificate** may follow a different policy.
 
-**Audit + notice:** Hubs should log proxy/emergency flows and notify users via multiple channels.
+**Audit + notice:** Hubs should log proxy/emergency flows & notify users via all channels.
 
 *Immediate access to allergies, meds, directives, & proxies drives adoption.*
 
@@ -340,6 +340,7 @@ Payer investigators request access via a **Consent Request Direct Message** *(Ap
 - **Payers:** lower admin cost, faster and more consistent decisions
 
 **Bottom line:** Prior-auth relief is a near-term adoption driver.
+
 ---
 
 # Benefit: Auditable Claims + Sponsor Oversight
@@ -470,7 +471,7 @@ Once hubs work reliably across providers, pharmacies can plug into the same univ
 - **Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
 - **Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
 - **Targeted safety alerts:** pharmacies + hubs receive TMs for recalls + safety signals + formulary changes  
-- **Messaging:** record-aware refill + substitution coordination with providers + hub-mediated patients  
+- **Messaging:** record-aware refill + sub. coordination w/ providers + hub-mediated patients  
 
 **Bottom line:** Universal hub access enables universal pharmacy participation — and access to the most time-sensitive record data.
 
