@@ -6,56 +6,29 @@ style: |
 /* =========================
    Global slide layout
    ========================= */
- 
- /* =========================
-    Marp default theme overrides
-    ========================= */
- 
- /* Force the slide content box tighter */
- section {
-   padding-top: 20px !important;
-   padding-bottom: 26px !important;
- }
- 
- /* Remove extra top margin from the first element on every slide */
- section > :first-child {
-   margin-top: 0 !important;
- }
- 
- /* Tighten h1 spacing (Marp theme often overrides this) */
- section h1 {
-   margin-top: 0 !important;
-   margin-bottom: 0.4em !important;
- }
- 
- /* Tighten h2/h3 too */
- section h2 {
-   margin-top: 0.15em !important;
-   margin-bottom: 0.35em !important;
- }
- section h3 {
-   margin-top: 0.15em !important;
-   margin-bottom: 0.3em !important;
- }
- 
- /* Optional: reduce paragraph spacing slightly */
- section p {
-   margin-top: 0.35em;
-   margin-bottom: 0.35em;
- }
 
 section {
   font-family: Arial, sans-serif;
-  padding: 20px 34px 30px 34px;   /* less top padding */
+  padding: 18px 34px 26px 34px;   /* tighter margins */
   line-height: 1.25;
-  font-size: 26px;                 /* base size for body text */
+  font-size: 26px;
 }
 
-/* Extra room for dense / appendix slides */
+/* Dense slides */
 section.dense {
-  padding: 14px 28px 22px 28px;   /* noticeably tighter */
-  font-size: 26px;
-  line-height: 1.22;
+  padding: 12px 28px 18px 28px;
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+/* Remove extra top margin from first element */
+section > :first-child {
+  margin-top: 0 !important;
+}
+
+/* Tighten paragraph spacing */
+section p {
+  margin: 0.32em 0;
 }
 
 /* =========================
@@ -66,7 +39,7 @@ h1 {
   color: #1a5276;
   font-family: Georgia, serif;
   font-size: 1.55em;
-  margin: 0 0 0.10em 0;
+  margin: 0 0 0.18em 0;
   line-height: 1.08;
 }
 
@@ -74,33 +47,28 @@ h2 {
   color: #1a5276;
   font-family: Georgia, serif;
   font-size: 1.2em;
-  margin: 0 0 0.45em 0;
-  line-height: 1.15;
+  margin: 0.12em 0 0.30em 0;
+  line-height: 1.12;
 }
 
 h3 {
   color: #1a5276;
   font-size: 1.05em;
-  margin: 0.2em 0 0.4em 0;
+  margin: 0.1em 0 0.25em 0;
 }
 
 /* =========================
    Links + emphasis
    ========================= */
 
-strong {
-  color: #1a5276;
-}
+strong { color: #1a5276; }
 
 a {
   color: #1a5276;
   text-decoration: none;
   font-weight: 600;
 }
-
-a:hover {
-  text-decoration: underline;
-}
+a:hover { text-decoration: underline; }
 
 /* =========================
    Title slide
@@ -112,32 +80,26 @@ section.title {
   flex-direction: column;
   justify-content: center;
 }
-
 section.title h1 {
   font-size: 2.4em;
   margin-bottom: 0.2em;
 }
 
 /* =========================
-   Bullets: reduce indentation + noise
+   Bullets
    ========================= */
 
 ul {
-  margin: 0.45em 0 0.1em 0;
-  padding-left: 1.05em;            /* tighter indent */
+  margin: 0.4em 0 0.1em 0;
+  padding-left: 1.0em;
 }
 
-li {
-  margin: 0.28em 0;
-}
+li { margin: 0.22em 0; }
 
-li::marker {
-  color: #1a5276;                  /* subtle brand color bullets */
-}
+li::marker { color: #1a5276; }
 
-/* Make nested bullets less ugly */
 ul ul {
-  margin-top: 0.25em;
+  margin-top: 0.2em;
   padding-left: 0.95em;
   font-size: 0.95em;
   opacity: 0.95;
@@ -161,13 +123,7 @@ section.cards li {
   line-height: 1.22;
 }
 
-section.cards li::marker {
-  content: "";
-}
-
-section.cards li strong {
-  color: #1a5276;
-}
+section.cards li::marker { content: ""; }
 
 /* =========================
    Blockquotes + callouts
@@ -176,32 +132,21 @@ section.cards li strong {
 blockquote {
   background: #1a5276;
   color: white;
-  padding: 18px 24px;
+  padding: 16px 22px;
   border-radius: 10px;
   border-left: none;
   font-size: 1.05em;
-  margin: 0.65em 0;
+  margin: 0.6em 0;
 }
-
-blockquote strong {
-  color: white;
-}
-
-/* Card blocks */
-.card {
-  background: #f0f4f7;
-  padding: 14px 18px;
-  border-radius: 8px;
-  margin: 12px 0;
-}
+blockquote strong { color: white; }
 
 /* Bottom line callout */
 .bottomline {
   background: #e8f1f5;
   border-left: 4px solid #1a5276;
-  padding: 14px 18px;
+  padding: 12px 16px;
   border-radius: 0 8px 8px 0;
-  margin-top: 18px;
+  margin-top: 14px;
 }
 
 /* =========================
@@ -212,32 +157,11 @@ pre, code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.85em;
 }
-
 pre {
   padding: 10px 14px;
   border-radius: 8px;
   background: #f6f8fa;
   line-height: 1.2;
-}
-
-/* =========================
-   Tables (if used)
-   ========================= */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9em;
-}
-
-th, td {
-  padding: 8px 10px;
-  border-bottom: 1px solid #d9e2e8;
-}
-
-th {
-  text-align: left;
-  color: #1a5276;
 }
 ---
 
@@ -573,7 +497,7 @@ This is a draft in active iteration — I’d love:
 ---
 
 <a id="common-questions"></a>
-# Appendix: Answers to Common Questions
+# Answers to Common Questions
 
 - How the Registry Prevents a National Patient ID  
 - Why TEFCA Can’t Solve This  
@@ -587,7 +511,7 @@ Participants generate **rotating HMAC match tokens** locally using an ONC-publis
 
 The registry matches only **ephemeral tokens** — it never receives demographics and never stores a permanent identifier. Key rotation + variant expansion prevent the system from becoming a national patient ID.
 
-**Importantly:** a functional registry also removes much of the policy pressure for creating one.
+**Importantly:** a functional registry removes policy pressure for creating one.
 
 ---
 
@@ -613,3 +537,4 @@ Patients without payer coverage won’t have a payer to confirm hub authorizatio
 This is a policy decision, not a protocol requirement.
 
 ---
+# END

@@ -414,16 +414,14 @@ Finance mirrors represent transaction state as an append-only STP log.
 
 Finance mirrors use a shared event vocabulary across payers, providers, and sponsors.
 
-**Event_Type ∈ {**
-`submitted | accepted | denied | adjusted | appealed | paid | refunded`
-**}**
+**Event_Type ∈ {**`submitted | accepted | denied | adjusted | appealed | paid | refunded`**}**
 
 **Canonical `KV` keys:**  
-`billed_amount`, `allowed_amount`, `paid_amount`, `patient_responsibility`, `copay_due`,  
-`denial_code`, `service_date`, `provider_id`
+`billed_amount`, `allowed_amount`, `paid_amount`, `patient_responsibility`, `copay_due`,  `denial_code`, `service_date`, `provider_id`
 
 Unknown keys MUST be ignored.
 Sponsors encode premium/funding semantics via txn_kind= and related KV keys.
+
 ---
 <a id="manifest-init-registry"></a>
 
