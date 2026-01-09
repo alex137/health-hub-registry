@@ -3,149 +3,205 @@ marp: true
 theme: default
 paginate: true
 style: |
-  /* ---------- Base slide typography / layout ---------- */
-  section {
-    font-family: Arial, sans-serif;
-    padding: 40px;
-    line-height: 1.35;
-    max-width: 1100px;        /* helps reduce ugly wraps on wide bullet slides */
-    margin: 0 auto;
-  }
+/* =========================
+   Global slide layout
+   ========================= */
 
-  h1 {
-    color: #1a5276;
-    font-family: Georgia, serif;
-    font-size: 1.65em;
-    margin-bottom: 0.6em;
-  }
+section {
+  font-family: Arial, sans-serif;
+  padding: 30px 34px;              /* narrower margins */
+  line-height: 1.25;
+  font-size: 28px;                 /* base size for body text */
+}
 
-  h2 {
-    color: #1a5276;
-    font-family: Georgia, serif;
-    margin-bottom: 0.5em;
-  }
+/* Extra room for dense / appendix slides */
+section.dense {
+  padding: 22px 28px;
+  font-size: 26px;
+  line-height: 1.22;
+}
 
-  h3 {
-    color: #1a5276;
-    margin-bottom: 0.4em;
-  }
+/* =========================
+   Headings
+   ========================= */
 
-  strong {
-    color: #1a5276;
-  }
+h1 {
+  color: #1a5276;
+  font-family: Georgia, serif;
+  font-size: 1.55em;
+  margin: 0 0 0.55em 0;
+  line-height: 1.1;
+}
 
-  /* ---------- Links ---------- */
-  a {
-    color: #1a5276;
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
+h2 {
+  color: #1a5276;
+  font-family: Georgia, serif;
+  font-size: 1.2em;
+  margin: 0 0 0.45em 0;
+  line-height: 1.15;
+}
 
-  /* ---------- Title slide ---------- */
-  section.title {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+h3 {
+  color: #1a5276;
+  font-size: 1.05em;
+  margin: 0.2em 0 0.4em 0;
+}
 
-  section.title h1 {
-    font-size: 2.5em;
-    margin-bottom: 0.2em;
-  }
+/* =========================
+   Links + emphasis
+   ========================= */
 
-  /* ---------- Blockquotes ---------- */
-  blockquote {
-    background: #1a5276;
-    color: white;
-    padding: 20px 30px;
-    border-radius: 8px;
-    border-left: none;
-    font-size: 1.1em;
-    margin: 18px 0;
-  }
-  blockquote strong {
-    color: white;
-  }
+strong {
+  color: #1a5276;
+}
 
-  /* ---------- Soft containers (used via .card class) ---------- */
-  .card {
-    background: #f0f4f7;
-    padding: 16px 20px;
-    border-radius: 6px;
-    margin: 12px 0;
-  }
+a {
+  color: #1a5276;
+  text-decoration: none;
+  font-weight: 600;
+}
 
-  .bottomline {
-    background: #e8f1f5;
-    border-left: 4px solid #1a5276;
-    padding: 16px 20px;
-    border-radius: 0 6px 6px 0;
-    margin-top: 20px;
-  }
+a:hover {
+  text-decoration: underline;
+}
 
-  /* ---------- GLOBAL LIST CLEANUP (fixes bullet noise + indent) ---------- */
-  section ul,
-  section ol {
-    margin-top: 14px;
-    margin-bottom: 0;
-    padding-left: 1.05em;   /* much less indent than default */
-  }
+/* =========================
+   Title slide
+   ========================= */
 
-  section li {
-    margin: 10px 0;         /* gives breathing room */
-    line-height: 1.35;
-  }
+section.title {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-  section li::marker {
-    color: #1a5276;         /* makes marker feel intentional but not loud */
-    font-size: 0.9em;
-  }
+section.title h1 {
+  font-size: 2.4em;
+  margin-bottom: 0.2em;
+}
 
-  /* Reduce hanging-indent ugliness on wrapped lines */
-  section li {
-    padding-left: 0.15em;
-  }
+/* =========================
+   Bullets: reduce indentation + noise
+   ========================= */
 
-  /* Better spacing between paragraphs and lists */
-  section p {
-    margin: 0.6em 0;
-  }
+ul {
+  margin: 0.45em 0 0.1em 0;
+  padding-left: 1.05em;            /* tighter indent */
+}
 
-  /* ---------- OPTIONAL: "cards list" mode for dense bullet slides ---------- */
-  /* Use by adding: <!-- _class: cards --> */
-  section.cards ul,
-  section.cards ol {
-    list-style: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
+li {
+  margin: 0.28em 0;
+}
 
-  section.cards li {
-    background: #f0f4f7;
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin: 12px 0;
-    line-height: 1.35;
-  }
+li::marker {
+  color: #1a5276;                  /* subtle brand color bullets */
+}
 
-  /* Add subtle emphasis for bold lead-ins inside card bullets */
-  section.cards li strong {
-    color: #1a5276;
-  }
+/* Make nested bullets less ugly */
+ul ul {
+  margin-top: 0.25em;
+  padding-left: 0.95em;
+  font-size: 0.95em;
+  opacity: 0.95;
+}
 
-  /* ---------- OPTIONAL: tighter "dense" mode if you ever need it ---------- */
-  /* Use by adding: <!-- _class: dense --> */
-  section.dense {
-    padding: 32px;
-  }
+/* =========================
+   Slide class: cards
+   ========================= */
 
-  section.dense li {
-    margin: 7px 0;
-    line-height: 1.25;
-  }
+section.cards ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5em;
+}
+
+section.cards li {
+  background: #f0f4f7;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 10px 0;
+  line-height: 1.22;
+}
+
+section.cards li::marker {
+  content: "";
+}
+
+section.cards li strong {
+  color: #1a5276;
+}
+
+/* =========================
+   Blockquotes + callouts
+   ========================= */
+
+blockquote {
+  background: #1a5276;
+  color: white;
+  padding: 18px 24px;
+  border-radius: 10px;
+  border-left: none;
+  font-size: 1.05em;
+  margin: 0.65em 0;
+}
+
+blockquote strong {
+  color: white;
+}
+
+/* Card blocks */
+.card {
+  background: #f0f4f7;
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+/* Bottom line callout */
+.bottomline {
+  background: #e8f1f5;
+  border-left: 4px solid #1a5276;
+  padding: 14px 18px;
+  border-radius: 0 8px 8px 0;
+  margin-top: 18px;
+}
+
+/* =========================
+   Code blocks
+   ========================= */
+
+pre, code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.85em;
+}
+
+pre {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #f6f8fa;
+  line-height: 1.2;
+}
+
+/* =========================
+   Tables (if used)
+   ========================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+th, td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #d9e2e8;
+}
+
+th {
+  text-align: left;
+  color: #1a5276;
+}
 ---
 
 <!-- _class: title -->
@@ -214,7 +270,7 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
 
 # healthhubregistry.gov
 
-**A lightweight discovery + authorization layer that makes the ideal flow universal.**
+**A lightweight discovery + authorization layer to makes ideal flow universal.**
 
 - The core protocol fits in a handful of appendix slides  
 - The registry never handles PHI — it only routes endpoints + approvals  
@@ -222,8 +278,8 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
   - **[STP](https://github.com/alex137/state-transfer-protocol):** State Transfer Protocol (streaming tables over HTTP)
   - **[EMTP](https://github.com/alex137/ephemeral-match-token-protocol):** Ephemeral Match Tokens (privacy-preserving matching)
 
-**Spec + reference implementation:**  
--https://github.com/alex137/health-hub-registry
+Link: **[Spec + reference implementation](https://github.com/alex137/health-hub-registry)**  
+
 
 **Bottom line:** This is a buildable system, not a research project.
 
@@ -259,8 +315,7 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
 <!-- _class: cards -->
 # Hubs as the Primary Patient Channel
 
-HHS should also grant safe harbor for hub-mediated delivery (SMS, WhatsApp, email) under defined safeguards.
-Authorized, record-aware hubs become the default coordination channel — replacing portals.
+HHS should also grant safe harbor for hub-mediated delivery (SMS, WhatsApp, email) under defined safeguards. Authorized, record-aware hubs become the default coordination channel — replacing portals.
 
 * **Unified threads:** persistent hub-mediated conversations across providers (thread_id)
 * **Care coordination:** scheduling, referrals, transitions, discharge follow-up
@@ -276,7 +331,7 @@ Once hubs are authorized and reliably record-aware, they become the natural plac
 
 - **Unified out-of-pocket tracking** across providers + pharmacies  
 - **Record-linked bills + explanations** (“what was this charge for?”)  
--	**Payer claims + adjudication updates** — denials, adjustments, patient responsibility — in the same thread
+- **Payer claims + adjudication updates** — denials, adjustments, patient responsibility — in the same thread
 - **Appeals + disputes** with the right clinical context attached  
 - **Payment plans + financing** (HSA, employer benefits, charity care routing)
 
@@ -582,7 +637,7 @@ Keys are distributed only to credentialed participants and rotate on a fixed sch
 
 **No de facto NPI:** The registry matches tokens and returns endpoint crosswalks, but never receives demographics or stores persistent identifiers.
 
-Link: **[EMTP spec + reference code](https://github.com/alex137/ephemeral-match-token-protocol/)
+Link: **[EMTP spec + reference code](https://github.com/alex137/ephemeral-match-token-protocol/)**
 
 ---
 
