@@ -17,7 +17,7 @@ section {
 /* Dense slides */
 section.dense {
   padding: 12px 28px 18px 28px;
-  font-size: 25px;
+  font-size: 20px;
   line-height: 1.2;
 }
 
