@@ -1,0 +1,44 @@
+name: Build Deck PDF
+
+on:
+  push:
+    branches: ["master"]
+    paths:
+      - "deck/**"
+      - ".github/workflows/build-deck.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Marp CLI
+        run: npm install -g @marp-team/marp-cli
+
+      - name: Build PDF
+        run: |
+          marp deck/health-hub-registry-deck.marp.md \
+            --pdf \
+            --output health-hub-registry-deck.pdf
+
+      - name: Create/Update Release "latest"
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+          name: Latest Deck
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: health-hub-registry-deck.pdf
+          draft: false
+          prerelease: false
+          body: |
+            Auto-generated PDF from Marp source.
+            Commit: ${{ github.sha }}
+            Source: deck/health-hub-registry-deck.marp.md
