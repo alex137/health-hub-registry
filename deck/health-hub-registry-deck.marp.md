@@ -472,7 +472,7 @@ Once hubs work reliably across providers, pharmacies can plug into the same univ
 - **Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
 - **Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
 - **Targeted safety alerts:** pharmacies + hubs receive TMs for recalls + safety signals + formulary changes  
-- **Messaging:** record-aware refill + sub. coordination w/ providers + hub-mediated patients  
+- **Messaging:** record-aware refill + sub. coordination w/ providers + patients  
 
 **Bottom line:** Universal hub access enables universal pharmacy participation — and access to the most time-sensitive record data.
 
