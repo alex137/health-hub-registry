@@ -457,7 +457,7 @@ HHS should require pharmacies to operate as **registry-certified provider-like e
 
 ---
 
-<!-- _class: cards -->
+<!-- _class: dense -->
 # Pharmacy Unlocks: The Dispense Reality
 
 Once hubs work reliably across providers, pharmacies can plug into the same universal layer — so the record reflects what actually happened.
