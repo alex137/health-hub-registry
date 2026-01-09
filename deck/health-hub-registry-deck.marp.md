@@ -462,10 +462,10 @@ HHS should require pharmacies to operate as **registry-certified provider-like e
 
 Once hubs work reliably across providers, pharmacies can plug into the same universal layer — so the record reflects what actually happened.
 
-- **Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
-- **Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
-- **Targeted safety alerts:** pharmacies + hubs receive Targeted Messages for recalls + safety signals + formulary changes  
-- **Messaging:** record-aware refill + substitution coordination with providers + hub-mediated patients  
+**Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
+**Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
+**Targeted safety alerts:** pharmacies + hubs receive Targeted Messages for recalls + safety signals + formulary changes  
+**Messaging:** record-aware refill + substitution coordination with providers + hub-mediated patients  
 
 **Bottom line:** Universal hub access enables universal pharmacy participation — and the most time-sensitive record data.
 
