@@ -19,7 +19,7 @@ section {
 section.dense {
   padding: 12px 28px 18px 28px;
   font-size: 24px;
-  line-height: 1.15;
+  line-height: 1.10;
 }
 
 section.dense ul { margin-top: 0.25em; }
@@ -238,12 +238,14 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
 **A lightweight discovery + authorization layer that makes ideal flow universal.**
 
 - The registry never handles PHI — it only routes endpoints + approvals  
-- The mechanism is intentionally small and fully specified  
-- Specs + starter code are published — designed to be implemented quickly  
-- Built from two reusable open primitives — invest once, reuse everywhere:
-  - **[STP](https://github.com/alex137/state-transfer-protocol):** State Transfer Protocol (streaming tables over HTTP)
-  - **[EMTP](https://github.com/alex137/ephemeral-match-token-protocol):** Ephemeral Match Tokens (privacy-preserving matching)
-- **Implementation-ready:** [Implementation spec deck (PDF)](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)
+- The mechanism is intentionally small (even if the walkthrough is detailed)
+- Specs + starter code are published — designed for fast implementation 
+**[Implementation spec deck (PDF)](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)**
+
+- Built using two reusable open primitives — invest once, reuse everywhere:
+  - **[STP](https://github.com/alex137/state-transfer-protocol):** auditable state sync + reliable notifications (no brokers)
+  - **[EMTP](https://github.com/alex137/ephemeral-match-token-protocol):** matching without demographics (no national patient ID)
+  
 
 **Bottom line:** This is buildable now — mostly plumbing, not research.
 
@@ -425,7 +427,6 @@ because every action is grounded in shared record context.
 Today, recalls, safety signals, protocol changes, and research requests are posted to websites — and affected patients/providers often never see them.  
 **Targeted Messages (TMs)** solve this.
 
-
 A TM targets a rules-based predicate (RxNorm, ICD10, timeframe, etc.) — not a specific recipient.
 
 Publishers (FDA / CDC / product developers) pull the hub list from the registry and send the TM to each hub.  
@@ -466,12 +467,12 @@ HHS should require pharmacies to operate as **registry-certified provider-like e
 
 Once hubs work reliably across providers, pharmacies can plug into the same universal layer — so the record reflects what actually happened.
 
-* **Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
-* **Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
+- **Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
+- **Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
 - **Targeted safety alerts:** pharmacies + hubs receive TMs for recalls + safety signals + formulary changes  
 - **Messaging:** record-aware refill + substitution coordination with providers + hub-mediated patients  
 
-**Bottom line:** Universal hub access enables universal pharmacy participation — and the most time-sensitive record data.
+**Bottom line:** Universal hub access enables universal pharmacy participation — and access to the most time-sensitive record data.
 
 ---
 
