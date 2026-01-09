@@ -3,42 +3,60 @@ marp: true
 theme: default
 paginate: true
 style: |
+  /* ---------- Base slide typography / layout ---------- */
   section {
     font-family: Arial, sans-serif;
     padding: 40px;
+    line-height: 1.35;
+    max-width: 1100px;        /* helps reduce ugly wraps on wide bullet slides */
+    margin: 0 auto;
   }
+
   h1 {
     color: #1a5276;
     font-family: Georgia, serif;
-    font-size: 1.6em;
+    font-size: 1.65em;
+    margin-bottom: 0.6em;
   }
+
   h2 {
     color: #1a5276;
     font-family: Georgia, serif;
+    margin-bottom: 0.5em;
   }
+
   h3 {
     color: #1a5276;
+    margin-bottom: 0.4em;
   }
+
   strong {
     color: #1a5276;
   }
- a {
-  color: #1a5276;
-  text-decoration: none;
+
+  /* ---------- Links ---------- */
+  a {
+    color: #1a5276;
+    text-decoration: none;
   }
   a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
   }
+
+  /* ---------- Title slide ---------- */
   section.title {
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
+
   section.title h1 {
     font-size: 2.5em;
     margin-bottom: 0.2em;
   }
+
+  /* ---------- Blockquotes ---------- */
   blockquote {
     background: #1a5276;
     color: white;
@@ -46,22 +64,87 @@ style: |
     border-radius: 8px;
     border-left: none;
     font-size: 1.1em;
+    margin: 18px 0;
   }
   blockquote strong {
     color: white;
   }
+
+  /* ---------- Soft containers (used via .card class) ---------- */
   .card {
     background: #f0f4f7;
     padding: 16px 20px;
     border-radius: 6px;
     margin: 12px 0;
   }
+
   .bottomline {
     background: #e8f1f5;
     border-left: 4px solid #1a5276;
     padding: 16px 20px;
     border-radius: 0 6px 6px 0;
     margin-top: 20px;
+  }
+
+  /* ---------- GLOBAL LIST CLEANUP (fixes bullet noise + indent) ---------- */
+  section ul,
+  section ol {
+    margin-top: 14px;
+    margin-bottom: 0;
+    padding-left: 1.05em;   /* much less indent than default */
+  }
+
+  section li {
+    margin: 10px 0;         /* gives breathing room */
+    line-height: 1.35;
+  }
+
+  section li::marker {
+    color: #1a5276;         /* makes marker feel intentional but not loud */
+    font-size: 0.9em;
+  }
+
+  /* Reduce hanging-indent ugliness on wrapped lines */
+  section li {
+    padding-left: 0.15em;
+  }
+
+  /* Better spacing between paragraphs and lists */
+  section p {
+    margin: 0.6em 0;
+  }
+
+  /* ---------- OPTIONAL: "cards list" mode for dense bullet slides ---------- */
+  /* Use by adding: <!-- _class: cards --> */
+  section.cards ul,
+  section.cards ol {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
+
+  section.cards li {
+    background: #f0f4f7;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    line-height: 1.35;
+  }
+
+  /* Add subtle emphasis for bold lead-ins inside card bullets */
+  section.cards li strong {
+    color: #1a5276;
+  }
+
+  /* ---------- OPTIONAL: tighter "dense" mode if you ever need it ---------- */
+  /* Use by adding: <!-- _class: dense --> */
+  section.dense {
+    padding: 32px;
+  }
+
+  section.dense li {
+    margin: 7px 0;
+    line-height: 1.25;
   }
 ---
 
@@ -75,19 +158,22 @@ January 2026
 
 ---
 
-# Health Hubs
+# Consumer Health Hubs in the Market
+
+These hubs are already creating patient value — and they could unlock even bigger payer value if they were reliable at scale.
 
 Millions use Apple Health, Guava, Picnic, OneRecord, and others to:
 
-- **Aggregate + organize** medical records across providers
-- **Help patients interpret** results and manage conditions (AI-assisted)
-- **Enable access** to async care, virtual visits, and home diagnostics
-- **Keep clinicians informed** (especially in transitions & emergencies)
-- **Support proxies** for seniors and complex chronic care
+- **Aggregate + organize** medical records across providers  
+- **Help patients interpret** results and manage conditions (AI-assisted)  
+- **Enable access** to async care, virtual visits, and home diagnostics  
+- **Keep clinicians informed** (especially in transitions & emergencies)  
+- **Support proxies** for seniors and complex chronic care  
 
 ---
 
-# Promise of Hub Value for Payers
+<!-- _class: cards -->
+# The Promise of Hubs At Scale for Payers
 
 **Better outcomes, lower medical + admin cost.**
 
@@ -99,6 +185,7 @@ Millions use Apple Health, Guava, Picnic, OneRecord, and others to:
 
 ---
 
+<!-- _class: cards -->
 # But the Hub Flywheel Is Broken
 
 - **No provider automation → bad flow:** fragmented portals + inconsistent APIs → incomplete/late records, manual retrieval
@@ -142,6 +229,7 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
 
 ----
 
+<!-- _class: cards -->
 # Registry Participant Requirements
 
 - Hubs/payers/providers post hashed identifiers for patient matching
@@ -153,6 +241,7 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
 
 ---
 
+<!-- _class: cards -->
 # Enforcement and Adoption
 
 - Registry never handles PHI
@@ -167,6 +256,7 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
 
 ---
 
+<!-- _class: cards -->
 # Hubs as the Primary Patient Channel
 
 HHS should also grant safe harbor for hub-mediated delivery (SMS, WhatsApp, email) under defined safeguards.
@@ -204,6 +294,7 @@ and pharmacy integration all become automatic.
 
 ---
 
+<!-- _class: dense -->
 # Hubs: Proxy + Emergency Access
 
 **Proxy usage:** Hubs may let users designate proxies to approve record exchange and manage care on their behalf — useful for seniors and complex chronic care (ongoing or emergency-only, optionally with delay).
@@ -216,6 +307,7 @@ and pharmacy integration all become automatic.
 
 ---
 
+<!-- _class: dense -->
 # Benefit: Speeding Prior Authorization
 
 Prior auth delays are mostly **documentation delays** that hubs can solve.
@@ -292,6 +384,7 @@ because every action is grounded in shared record context.
 
 ---
 
+<!-- _class: dense -->
 # Benefit: Targeted Direct Messages
 
 Today, recalls, safety signals, protocol changes, and research requests are posted to websites — and affected patients/providers often never see them.
@@ -303,7 +396,7 @@ Publishers (FDA/CDC / ONC-approved entity) pull the hub list from the registry a
 **Result:** safety-critical messages reach the right providers (via provenance endpoints) — and attach to the right records — automatically.
 
 ---
-
+<!-- _class: dense -->
 # Benefit: Real-Time Real-World Evidence
 
 Research hubs enable near-real-time adverse event capture, real-world controls, and rapid trial recruitment — without years of data-sharing negotiation.
@@ -315,7 +408,7 @@ Research hubs enable near-real-time adverse event capture, real-world controls, 
 3. Research hub registers like any other hub; after payer approval, providers deliver records via standard FHIR subscriptions.
 
 ---
-
+<!-- _class: dense -->
 # Completing Data:  Pharmacy Participation
 
 *Medications are the most frequent and error-prone part of care — but today's interoperability layer misses the dispense reality.* Today, neither providers nor hubs can reliably know whether a prescribed medication was **filled, substituted, refilled, or abandoned**.
@@ -330,6 +423,7 @@ HHS should require pharmacies to operate as **registry-certified provider-like e
 
 ---
 
+<!-- _class: cards -->
 # Pharmacy Unlocks: Safety + Automation
 
 **Care transitions:** discharge meds become verifiable and shareable → fewer readmissions + reconciliation errors
