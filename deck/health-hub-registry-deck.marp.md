@@ -395,7 +395,7 @@ and pharmacy integration all become automatic.
 
 **Audit + notice:** Hubs should log proxy/emergency flows and notify users via multiple channels.
 
-*Immediate access to allergies, meds, directives, and proxy designations is a strong adoption driver.*
+*Immediate access to allergies, meds, directives, & proxies drives adoption.*
 
 ---
 
@@ -410,7 +410,7 @@ Payer investigators request access via a **Consent Request Direct Message** *(Ap
 - **Providers:** less doc churn, lower audit burden, less non-payment risk
 - **Payers:** lower admin cost, faster and more consistent decisions
 
-**Bottom line:** Prior-auth relief creates a near-term reason for payers and providers to adopt hub workflows.
+** Bottom line:** Prior-auth relief is a another near-term adoption driver. 
 
 ---
 
