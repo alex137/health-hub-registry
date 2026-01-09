@@ -9,14 +9,14 @@ style: |
 
 section {
   font-family: Arial, sans-serif;
-  padding: 30px 34px;              /* narrower margins */
+  padding: 20px 34px 30px 34px;   /* less top padding */
   line-height: 1.25;
-  font-size: 28px;                 /* base size for body text */
+  font-size: 26px;                 /* base size for body text */
 }
 
 /* Extra room for dense / appendix slides */
 section.dense {
-  padding: 22px 28px;
+  padding: 14px 28px 22px 28px;   /* noticeably tighter */
   font-size: 26px;
   line-height: 1.22;
 }
@@ -29,8 +29,8 @@ h1 {
   color: #1a5276;
   font-family: Georgia, serif;
   font-size: 1.55em;
-  margin: 0 0 0.55em 0;
-  line-height: 1.1;
+  margin: 0 0 0.10em 0;
+  line-height: 1.08;
 }
 
 h2 {
@@ -228,7 +228,7 @@ Millions use Apple Health, Guava, Picnic, OneRecord, and others to:
 
 ---
 
-<!-- _class: cards -->
+
 # The Promise of Hubs At Scale for Payers
 
 **Better outcomes, lower medical + admin cost.**
@@ -306,7 +306,7 @@ Link: **[Spec + reference implementation](https://github.com/alex137/health-hub-
 
 - Use hub reports to automate information-blocking enforcement at scale
 
-- Make hubs a covered digital benefit; tie to quality metrics for hub-enabled workflows (care transitions, prior-auth)
+- Make hubs a covered benefit tied to hub-enabled quality measures
 
 **Bottom line:** Payment incentives + scalable enforcement can create the first universal, patient-controlled interoperability layer.
 
@@ -317,9 +317,9 @@ Link: **[Spec + reference implementation](https://github.com/alex137/health-hub-
 
 HHS should also grant safe harbor for hub-mediated delivery (SMS, WhatsApp, email) under defined safeguards. Authorized, record-aware hubs become the default coordination channel — replacing portals.
 
-* **Unified threads:** persistent hub-mediated conversations across providers (thread_id)
+* **Unified threads:** persistent hub-mediated conversations across providers 
 * **Care coordination:** scheduling, referrals, transitions, discharge follow-up
-* **Medication + pharmacy workflows:** refills, substitutions, adherence outreach
+* **Pharmacy workflows:** refills, substitutions, adherence
 * **Coverage workflows:** prior-auth status, benefits questions, appeals
 
 Result: one record-aware channel for patients and providers.
@@ -330,8 +330,8 @@ Result: one record-aware channel for patients and providers.
 Once hubs are authorized and reliably record-aware, they become the natural place patients manage the **financial side of care** — with the same context as the clinical record.
 
 - **Unified out-of-pocket tracking** across providers + pharmacies  
-- **Record-linked bills + explanations** (“what was this charge for?”)  
-- **Payer claims + adjudication updates** — denials, adjustments, patient responsibility — in the same thread
+- **Record-linked bills + explanations** (“what was this charge for?”)
+- **Claim status + responsibility updates** (denied, adjusted, what you owe)
 - **Appeals + disputes** with the right clinical context attached  
 - **Payment plans + financing** (HSA, employer benefits, charity care routing)
 
@@ -379,21 +379,40 @@ Payer investigators request access via a **Consent Request Direct Message** *(Ap
 
 # Benefit: Auditable Claims + Sponsor Oversight
 
-Prior auth is slow because documentation is slow.
+Prior auth is slow because documentation is slow.  
 So are audits and sponsor–carrier disputes.
 
-With hubs at scale, payers can expose auditable claim state streams:
-	•	Near-real-time claim lifecycle visibility (submitted → denied → adjusted → paid)
-	•	Faster audits + dispute resolution (append-only, replayable history)
-	•	Earlier fraud/waste detection (duplication, upcoding, contract violations)
-	•	Better sponsor oversight of TPAs, PBMs, and delegated risk groups
-	•	Clear reconciliation between what providers billed, what was allowed, and what was paid
+With hubs at scale, payers can expose **auditable claim state streams**:
 
-Result: accountable spend, lower admin cost, fewer drawn-out disputes.
+- **Near-real-time lifecycle visibility** (submitted → denied → adjusted → paid)  
+- **Faster audits + dispute resolution** (append-only, replayable history)  
+- **Earlier fraud/waste detection** (duplication, upcoding, contract violations)  
+- **Sponsor oversight** of TPAs, PBMs, and delegated risk groups  
+- **Reconciliation** between provider billing mirrors and payer adjudication streams  
+
+*X12 remains the transaction layer — this adds an auditable “mirror stream” that makes oversight and disputes deterministic.*
+
+**Result:** accountable spend, lower admin cost, fewer drawn-out disputes.
 
 ---
 
-# Provider Messaging Becomes Record-Linked Collaboration
+# Benefit: Auditable Billing Mirrors (Low Provider Burden)
+
+Providers already generate claims and patient bills.
+With hubs at scale, they can optionally publish a tiny STP mirror stream of billing events:
+	•	No new claims format — X12 / clearinghouses remain the transaction layer
+	•	Auto-generated from billing systems (or outbound X12 logs)
+	•	Auditable + replayable (“what was billed when, and what changed”)
+	•	Record-linked transparency: bills and denials attach to the clinical context
+	•	Fewer disputes + faster payment (providers, payers, sponsors)
+
+Result: billing becomes transparent and stateful — without new workflow burden.
+
+(Optional for providers; high-value for payers/sponsors/patients.)
+
+---
+
+# Provider Messaging -> Record-Linked Collaboration
 
 When hubs make cross-provider records universal, messaging stops being “fax in disguise.”
 
@@ -408,8 +427,7 @@ Providers communicate with **shared context**, not summaries.
 
 ---
 
-# Patient-Scoped Care Channels 
-###Across Health Systems
+# Patient-Scoped Care Channels Across Health Systems
 
 If providers attach messages to the shared record, every patient gains a persistent care channel:
 
@@ -464,9 +482,9 @@ Research hubs enable near-real-time adverse event capture, real-world controls, 
 
 ---
 <!-- _class: dense -->
-# Completing Data:  Pharmacy Participation
+# Benefit: Gaining Pharmacy Participation
 
-*Medications are the most frequent and error-prone part of care — but today's interoperability layer misses the dispense reality.* Today, neither providers nor hubs can reliably know whether a prescribed medication was **filled, substituted, refilled, or abandoned**.
+*Medications are the most frequent & error-prone part of care — but today's interoperability layer misses the dispense reality.* Today, neither providers nor hubs can reliably know whether a prescribed med was **filled, substituted, refilled, or abandoned**.
 
 HHS should require pharmacies to operate as **registry-certified provider-like endpoints**, so hubs can FHIR subscribe and receive:
 
@@ -524,39 +542,44 @@ This is a draft in active iteration — I’d love:
 ---
 
 <a id="common-questions"></a>
+# Appendix: Answers to Common Questions
 
-# Appendix: Common Questions
-
-- How does the registry prevent a national patient ID?
-- Is this just TEFCA with extra steps?
-- What about patients without insurance?
-
----
-
-# How Does the Registry Prevent a National Patient ID?
-
-Participants generate rotating HMAC identifier sets locally using an ONC-published algorithm and time-limited keys. The registry matches only ephemeral hashes and never receives demographics or stores a permanent identifier. Key rotation and variant expansion prevent the system from becoming a national patient ID.
+- How the Registry Prevents a National Patient ID  
+- Why TEFCA Can’t Solve This  
+- Options for Patients Without Insurance
 
 ---
 
-# Is This Just TEFCA With Extra Steps?
+# How the Registry Prevents a National Patient ID
 
-No. TEFCA is institution-to-institution exchange—it helps providers share records with each other, but leaves patients navigating multiple portals and requesting records episodically.
+Participants generate **rotating HMAC match tokens** locally using an ONC-published algorithm and time-limited keys.
 
-This framework is patient-authorized endpoint enforcement. Patients designate hubs; providers must fulfill continuously to those hubs. The enforcement locus shifts from institutional negotiation to patient rights.
+The registry matches only **ephemeral tokens** — it never receives demographics and never stores a permanent identifier. Key rotation + variant expansion prevent the system from becoming a national patient ID.
+
+**Importantly:** a functional registry also removes much of the policy pressure for creating one.
 
 ---
 
-# What About Patients Without Insurance?
+# Why TEFCA Can’t Solve This
 
-Patients without payer coverage won't have payers to confirm hub authorizations. Options for these patients:
+TEFCA is institution-to-institution exchange. It helps providers share records with each other, but still leaves patients navigating multiple portals and requesting records episodically.
 
-- State Medicaid agencies could serve as authorization-only participants for uninsured residents
-- ACA healthcare navigators could operate confirmation interfaces while helping patients enroll in coverage
-- This creates a pathway to both hub access and coverage enrollment
+This framework is **patient-authorized endpoint enforcement**:
+patients designate hubs, and providers must fulfill continuously to those hubs.
+
+The enforcement locus shifts from institutional negotiation to patient rights.
+
+---
+
+# Options for Patients Without Insurance
+
+Patients without payer coverage won’t have a payer to confirm hub authorizations. Options include:
+
+- State Medicaid agencies acting as authorization-only participants for uninsured residents  
+- ACA healthcare navigators providing confirmation while helping with enrollment  
+- A pathway that connects hub access to coverage enrollment
 
 This is a policy decision, not a protocol requirement.
-
 ---
 
 <a id="technical-appendix"></a>
@@ -581,7 +604,7 @@ Participants publish EMTP tables (SURLs) → notify Registry root (NURL)
 Registry matches token overlap → serves participant match streams (SURLs)
 
 3) **Approve (Payer STP)**  
-Participants follow payer beneficiary NURLs → receive scoped approval streams (SURLs)
+Participants follow payer beneficiary NURLs → receive scoped approval SURLs
 
 4) **Connect + Exchange (Manifests + Data Plane)**  
 Approved parties exchange manifests (SURL↔NURL) → FHIR + Direct (+ optional claims)
@@ -656,6 +679,25 @@ Participants MAY expose **Notify URLs** (**NURLs**) that peers POST to when a ne
 Link: **[STP spec + reference implementations](https://github.com/alex137/state-transfer-protocol)**.
 
 ---
+<a id="surl-nurl-terms"></a>
+
+# Appendix: STP Terms (SURLs + NURLs)
+
+To keep the protocol compact, we use two STP URL roles:
+
+- **SURL (State URL):** a URL you **GET** to read a streaming STP table  
+- **NURL (Notify URL):** a URL you **POST** to send an STP notification
+
+**Notify format:**  
+`surl=<SURL>&<event>=<NURL>`
+
+A notification can include:
+- the **SURL** to follow, and
+- one or more callback **NURLs** (for `match`, `manifest`, `grant`, etc.)
+
+*In this appendix, “SURL” always means “STP table URL,” and “NURL” means “STP Notify endpoint.”*
+
+---
 
 <a id="endpoint-token-tables"></a>
 
@@ -689,8 +731,10 @@ The registry serves participant-specific **match streams** as SURLs.
 `[SeqNo] \t [TS] \t [+/-] \t [Subject_NURL] \t [Matched_NURLs...]`
 
 - `Matched_NURLs`: whitespace-separated NURLs matched via EMTP token overlap.
-- **Payers:** hub-user NURLs  
-- **Others:** payer-beneficiary NURLs
+- **Payers:** hub users, sponsor member/employees, and patients
+- **Hubs** payer beneficiaries 
+- **Providers**: beneficiaries
+- **Sponsors**: beneficiaries and providers. 
 
 Match streams are authoritative for which foreign URLs are in-scope.
 
@@ -746,49 +790,119 @@ Provider SURLs deliver patient-approved hub sets.
 - Terminate only when the hub is absent from **all active payer** lists.
 
 ---
-<a id="sponsor-stp"></a>
 
-# Appendix: Claims SURLs (Claims STP)
+<a id="finance-policy"></a>
 
-Payers expose **Claims SURLs** to hubs and sponsors as an **auditable mirror stream**
-of claim + adjudication state (scoped to requester mTLS identity).
+# Appendix: Finance SURLs (Who Serves What)
 
-**STP schema:** `claim_event_stream`  
-`[SeqNo] \t [TS] \t [+/-] \t [Claim_ID] \t [Event_Type] \t [URL] \t [Metadata...]`
-- `Event_Type ∈ {submitted | adjudicated | denied | appealed | paid | adjusted | refunded}`
-- `URL` links to payer-hosted claim detail / supporting documentation *(scoped)*
-- `Metadata` MAY include: allowed_amount, patient_responsibility, copay_due, denial_code, provider_id
+`finance_surl` is an optional manifest endpoint carrying an STP finance stream
+(`finance_event_stream`), scoped by mTLS identity.
+
+**Recommended exposure:**
+- **Payers SHOULD** expose `finance_surl` to **hubs + sponsors**  
+- **Providers MAY** expose `finance_surl` to **hubs + payers**  
+- **Sponsors MAY** expose `finance_surl` to **payers** *(premium + coverage expectations)*
+
+Finance streams do **not** replace X12; they provide an auditable state mirror.
+
+---
+<a id="finance-stream"></a>
+
+# Appendix: Finance Event Stream (Schema)
+
+Finance streams mirror **transaction state** as an append-only log (claims, bills, payments, funding).
+
+**SURL schema:** `finance_event_stream`  
+`[SeqNo] \t [TS] \t [+/-] \t [Txn_ID] \t [Event_Type] \t [Action_URL] \t [KV...]`
+
+- `Txn_ID`: stable identifier for the transaction *(claim/bill/payment/funding item)*  
+- `Event_Type`: from the unified vocabulary *(next slide)*  
+- `Action_URL` (optional): scoped details / supporting documentation link  
+- `KV...`: whitespace-separated `key=value` pairs (amounts, codes, dates, identifiers)
 
 **Notes**
-- Sponsors can replay claim history and audit changes over time.
-- X12 remains the transaction layer; this is the payer-served **state mirror**.
+- Providers, payers, and sponsors use the same schema (different subsets of events).
+- X12 / clearinghouses remain the transaction layer; this is the auditable state mirror.
+---
+
+<a id="finance-event-types"></a>
+
+# Appendix: Finance Event Types (Unified)
+
+Finance streams share a small common vocabulary usable by **providers, payers, and sponsors**.
+
+**Event_Type ∈ {**
+- `submitted` — financial record created (claim, bill, invoice, funding request)
+- `accepted` — received / accepted for processing
+- `denied` — denied / rejected *(include denial_code)*
+- `adjusted` — amounts changed (contract, correction, coordination, recoupment)
+- `appealed` — dispute / appeal opened
+- `paid` — payment issued or received
+- `refunded` — reversal / refund
+- `funded` — sponsor funding / premium payment sent to payer or carrier
+- `reconciled` — settlement completed *(balances agreed)*
+**}**
+
+`KV...` = whitespace-separated `key=value` pairs  
+- canonical keys: billed_amount, allowed_amount, paid_amount, patient_responsibility, copay_due, denial_code, service_date, provider_id  
+- sponsors MAY also include: funded_amount, funding_period, contract_id, delegation_id  
+- unknown keys MUST be ignored
+
+---
+<a id="manifest-init-registry"></a>
+
+# Appendix: Manifest Initiation (From Registry Match)
+
+When a participant learns a new **foreign NURL** from its **Registry Match SURL**, it SHOULD initiate a manifest exchange.
+
+It sends an STP Notify to the foreign NURL:
+
+`surl=<Sender_Manifest_SURL>&manifest_nurl=<Sender_Manifest_NURL>`
+
+- `surl`: sender’s relationship manifest SURL  
+- `manifest_nurl`: where the receiver notifies back with its manifest SURL
+
+The receiver uses the most recently notified `surl` as the sender’s current manifest.
+
+----
+
+<a id="manifest-init-payer"></a>
+
+# Appendix: Manifest Initiation (From Payer Approvals)
+
+Payers return **Hub_User_NURLs** to providers and sponsors to indicate an approved hub relationship.
+
+When a party receives a new approved **Hub_User_NURL**, it SHOULD send an STP Notify:
+
+`surl=<Sender_Manifest_SURL>&manifest_nurl=<Sender_Manifest_NURL>`
+
+The hub fetches the sender’s manifest (SURL) and replies (via `manifest_nurl`)
+with hub-user–specific endpoints for Direct, FHIR, and Finance.
 
 ---
 
 <a id="endpoint-manifest"></a>
 
-# Appendix: Manifest Exchange
-
-When a party receives a new approved **Hub_User_NURL** (from a payer), or wants to update relationship endpoints, it sends an STP Notify:
-
-`surl=<Manifest_SURL>&manifest_nurl=<Manifest_NURL>`
-
--	surl: sender’s manifest SURL (relationship endpoints)
-- manifest_nurl: NURL where hub posts its manifest SURL
-
-Last notified surl replaces prior  sender manifest.
+# Appendix: Relationship Manifest (SURL)
 
 **Manifest SURL schema:** `endpoint_manifest`  
 `[SeqNo] \t [TS] \t [+/-] \t [endpoint_type] \t [URL]`
 
 **endpoint_type values:**  
-`fhir_subscribe` | `fhir_read` | `direct_message` | `claims_surl`
+`fhir_subscribe` | `fhir_read` | `direct_message` | `finance_surl`
 
-Unknown `endpoint_type` values MUST NOT break clients.
+- `finance_surl` serves `finance_event_stream`
+- Unknown `endpoint_type` values MUST NOT break clients.
+
+---
+
+
+
+
 
 ----
 
-Appendix: Manifest Exchange — Example
+# Appendix: Manifest Exchange — Example
 
 Provider learns approved Hub_User_NURL
 	1.	Provider notifies hub of provider manifest:
