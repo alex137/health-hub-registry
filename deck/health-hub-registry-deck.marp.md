@@ -6,6 +6,43 @@ style: |
 /* =========================
    Global slide layout
    ========================= */
+ 
+ /* =========================
+    Marp default theme overrides
+    ========================= */
+ 
+ /* Force the slide content box tighter */
+ section {
+   padding-top: 20px !important;
+   padding-bottom: 26px !important;
+ }
+ 
+ /* Remove extra top margin from the first element on every slide */
+ section > :first-child {
+   margin-top: 0 !important;
+ }
+ 
+ /* Tighten h1 spacing (Marp theme often overrides this) */
+ section h1 {
+   margin-top: 0 !important;
+   margin-bottom: 0.4em !important;
+ }
+ 
+ /* Tighten h2/h3 too */
+ section h2 {
+   margin-top: 0.15em !important;
+   margin-bottom: 0.35em !important;
+ }
+ section h3 {
+   margin-top: 0.15em !important;
+   margin-bottom: 0.3em !important;
+ }
+ 
+ /* Optional: reduce paragraph spacing slightly */
+ section p {
+   margin-top: 0.35em;
+   margin-bottom: 0.35em;
+ }
 
 section {
   font-family: Arial, sans-serif;
@@ -580,6 +617,7 @@ Patients without payer coverage won’t have a payer to confirm hub authorizatio
 - A pathway that connects hub access to coverage enrollment
 
 This is a policy decision, not a protocol requirement.
+
 ---
 
 <a id="technical-appendix"></a>
@@ -688,11 +726,10 @@ To keep the protocol compact, we use two STP URL roles:
 - **SURL (State URL):** a URL you **GET** to read a streaming STP table  
 - **NURL (Notify URL):** a URL you **POST** to send an STP notification
 
-**Notify format:**  
-`surl=<SURL>&<event>=<NURL>`
+**Notify format:**  `surl=<SURL>&<event>=<NURL>`
 
 A notification can include:
-- the **SURL** to follow, and
+- the **SURL** to follow, and/or
 - one or more callback **NURLs** (for `match`, `manifest`, `grant`, etc.)
 
 *In this appendix, “SURL” always means “STP table URL,” and “NURL” means “STP Notify endpoint.”*
@@ -770,7 +807,7 @@ Payers serve these streams to authorized hubs to report user approval status.
 - `Denied`: denial/revocation reason URL
 
 If `Manifest_SURL` changes, the hub re-fetches the manifest and updates subscriptions.  
-Delete records + terminate provider subscriptions only when **Denied across all active payers**.
+Delete records + terminate subscriptions only when **Denied across all active payers**.
 
 ---
 
@@ -806,6 +843,7 @@ Provider SURLs deliver patient-approved hub sets.
 Finance streams do **not** replace X12; they provide an auditable state mirror.
 
 ---
+
 <a id="finance-stream"></a>
 
 # Appendix: Finance Event Stream (Schema)
@@ -815,14 +853,13 @@ Finance streams mirror **transaction state** as an append-only log (claims, bill
 **SURL schema:** `finance_event_stream`  
 `[SeqNo] \t [TS] \t [+/-] \t [Txn_ID] \t [Event_Type] \t [Action_URL] \t [KV...]`
 
-- `Txn_ID`: stable identifier for the transaction *(claim/bill/payment/funding item)*  
-- `Event_Type`: from the unified vocabulary *(next slide)*  
-- `Action_URL` (optional): scoped details / supporting documentation link  
-- `KV...`: whitespace-separated `key=value` pairs (amounts, codes, dates, identifiers)
+- `Txn_ID`: stable transaction identifier *(claim / bill / payment / funding item)*
+- `Event_Type`: from unified vocabulary *(next slide)*
+- `Action_URL` (optional): scoped detail / documentation link
+- `KV...`: whitespace-separated `key=value` metadata *(amounts, codes, dates, IDs)*
 
-**Notes**
-- Providers, payers, and sponsors use the same schema (different subsets of events).
-- X12 / clearinghouses remain the transaction layer; this is the auditable state mirror.
+*(See next slide for event vocabulary.)*
+
 ---
 
 <a id="finance-event-types"></a>
@@ -832,21 +869,18 @@ Finance streams mirror **transaction state** as an append-only log (claims, bill
 Finance streams share a small common vocabulary usable by **providers, payers, and sponsors**.
 
 **Event_Type ∈ {**
-- `submitted` — financial record created (claim, bill, invoice, funding request)
+- `submitted` — record created *(claim / bill / invoice / funding request)*
 - `accepted` — received / accepted for processing
-- `denied` — denied / rejected *(include denial_code)*
-- `adjusted` — amounts changed (contract, correction, coordination, recoupment)
+- `denied` — rejected *(include `denial_code`)*
+- `adjusted` — amounts changed *(contract, correction, coordination, recoupment)*
 - `appealed` — dispute / appeal opened
 - `paid` — payment issued or received
-- `refunded` — reversal / refund
-- `funded` — sponsor funding / premium payment sent to payer or carrier
-- `reconciled` — settlement completed *(balances agreed)*
+- `refunded` — reversal / refund  
 **}**
 
-`KV...` = whitespace-separated `key=value` pairs  
-- canonical keys: billed_amount, allowed_amount, paid_amount, patient_responsibility, copay_due, denial_code, service_date, provider_id  
-- sponsors MAY also include: funded_amount, funding_period, contract_id, delegation_id  
-- unknown keys MUST be ignored
+`KV...` uses `key=value` pairs. Canonical keys:  
+`billed_amount`, `allowed_amount`, `paid_amount`, `patient_responsibility`, `copay_due`, `denial_code`, `service_date`, `provider_id`  
+Unknown keys MUST be ignored.
 
 ---
 <a id="manifest-init-registry"></a>
@@ -894,12 +928,6 @@ with hub-user–specific endpoints for Direct, FHIR, and Finance.
 - `finance_surl` serves `finance_event_stream`
 - Unknown `endpoint_type` values MUST NOT break clients.
 
----
-
-
-
-
-
 ----
 
 # Appendix: Manifest Exchange — Example
@@ -945,9 +973,6 @@ Providers MAY route or triage messages differently based on `sender_role` + `mes
 `[SeqNo] \t [TS] \t [+/-] \t [Hub_User_Endpoint_URL] \t [EMTP_Match_Tokens..]`
 
 Hubs MUST support immediate revocation + audit logging.
-
----
-
 
 ---
 <a id="tdm-headers"></a>
