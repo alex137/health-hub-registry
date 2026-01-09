@@ -136,7 +136,7 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
   - **[EMTP](https://github.com/alex137/ephemeral-match-token-protocol):** Ephemeral Match Tokens (privacy-preserving matching)
 
 **Spec + reference implementation:**  
-https://github.com/alex137/health-hub-registry
+-https://github.com/alex137/health-hub-registry
 
 **Bottom line:** This is a buildable system, not a research project.
 
@@ -180,7 +180,19 @@ Authorized, record-aware hubs become the default coordination channel — replac
 Result: one record-aware channel for patients and providers.
 
 ---
+# Patient Channel + Financial Channel
 
+Once hubs are authorized and reliably record-aware, they become the natural place patients manage the **financial side of care** — with the same context as the clinical record.
+
+- **Unified out-of-pocket tracking** across providers + pharmacies  
+- **Record-linked bills + explanations** (“what was this charge for?”)  
+-	**Payer claims + adjudication updates** — denials, adjustments, patient responsibility — in the same thread
+- **Appeals + disputes** with the right clinical context attached  
+- **Payment plans + financing** (HSA, employer benefits, charity care routing)
+
+**Result:** patients manage costs in real time, with full record context.
+
+---
 # What Universal Hubs Enable
 
 Once hubs work reliably across providers,
@@ -215,6 +227,22 @@ Payer investigators request access via a **Consent Request Direct Message** *(Ap
 - **Payers:** lower admin cost, faster and more consistent decisions
 
 **Bottom line:** Prior-auth relief creates a near-term reason for payers and providers to adopt hub workflows.
+
+---
+
+# Benefit: Auditable Claims + Sponsor Oversight
+
+Prior auth is slow because documentation is slow.
+So are audits and sponsor–carrier disputes.
+
+With hubs at scale, payers can expose auditable claim state streams:
+	•	Near-real-time claim lifecycle visibility (submitted → denied → adjusted → paid)
+	•	Faster audits + dispute resolution (append-only, replayable history)
+	•	Earlier fraud/waste detection (duplication, upcoding, contract violations)
+	•	Better sponsor oversight of TPAs, PBMs, and delegated risk groups
+	•	Clear reconciliation between what providers billed, what was allowed, and what was paid
+
+Result: accountable spend, lower admin cost, fewer drawn-out disputes.
 
 ---
 
@@ -335,6 +363,10 @@ This is a draft in active iteration — I’d love:
 - suggestions to improve the design (technical or policy)  
 - opportunities to walk through it and discuss adoption paths  
 
+**Latest deck + source:**  
+- PDF (latest): **[download](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-deck.pdf)**  
+- Source (Marp): **[health-hub-registry-deck.marp.md](https://github.com/alex137/health-hub-registry/blob/master/deck/health-hub-registry-deck.marp.md)**
+
 ---
 # Appendix
 
@@ -380,11 +412,30 @@ This is a policy decision, not a protocol requirement.
 
 <a id="technical-appendix"></a>
 
-# Appendix: Technical Appendix
+# Appendix: Implementation Notes (Optional)
 
-Detailed protocol and implementation slides.
+The core mechanism is intentionally small.  
+These slides describe the protocol in implementer-ready form.
 
-(Everything below is optional reading for implementers.)
+*(Everything below is optional reading.)*
+
+----
+
+<a id="appendix-map"></a>
+
+# Appendix: System Map (How the Pieces Fit)
+
+1) **Match (EMTP)**  
+Participants publish EMTP tables (SURLs) → notify Registry root (NURL)
+
+2) **Crosswalk (Registry STP)**  
+Registry matches token overlap → serves participant match streams (SURLs)
+
+3) **Approve (Payer STP)**  
+Participants follow payer beneficiary NURLs → receive scoped approval streams (SURLs)
+
+4) **Connect + Exchange (Manifests + Data Plane)**  
+Approved parties exchange manifests (SURL↔NURL) → FHIR + Direct (+ optional claims)
 
 ---
 <a id="protocol-assumptions"></a>
@@ -392,11 +443,13 @@ Detailed protocol and implementation slides.
 # Appendix: Protocol Assumptions
 
 - All system-to-system communication uses **HTTPS + mTLS**.
-- Participants are authorized by **certificate Policy OIDs**.
-- Control plane: **STP** (routing, approvals, endpoint manifests).
-- Data plane: **FHIR** (records/benefits/subscriptions) + **Direct**.
-- Providers promptly STP notify newly discovered approved hub user urls.
-- Missing payer endpoints or outages are not revocations; prior status remains authoritative until explicit update.
+- Participants are authorized by **certificate Policy OIDs** (role-based certs).
+- **[EMTP](https://github.com/alex137/ephemeral-match-token-protocol/)** provides privacy-preserving identity matching (token overlap; rotating keys).
+- **[STP](https://github.com/alex137/state-transfer-protocol)** is the control-plane primitive (streaming state tables + notifications).
+- **FHIR + Direct** are the data-plane primitives (records + messaging).
+- Missing payer endpoints or outages are **not revocations**; last known status remains valid until explicitly updated.
+
+
 
 ---
 
@@ -407,7 +460,7 @@ Detailed protocol and implementation slides.
 - **Trust anchor bundle:** Registry root URL serves a PEM bundle of trusted CA roots for authenticating system participants.
 
 - **Role-based certificates:** Participant certs include a **Policy OID** identifying role:
-  `payer | hub | provider | emergency_provider | tdm_publisher | direct_distributor`
+  `payer | hub | provider | emergency_provider | tdm_publisher | direct_distributor | sponsor`
 
 - **Provider identity binding:** Provider certs encode **NPI** in `SubjectAltName.otherName` using the designated NPI OID.
 
@@ -435,9 +488,10 @@ Keys are distributed only to credentialed participants and rotate on a fixed sch
 
 **No de facto NPI:** The registry matches tokens and returns endpoint crosswalks, but never receives demographics or stores persistent identifiers.
 
-**Full spec + reference code:** see EMTP repo.
+Link: **[EMTP spec + reference code](https://github.com/alex137/ephemeral-match-token-protocol/)
 
 ---
+
 <a id="stp"></a>
 
 # Appendix: STP (State Transfer Protocol)
@@ -448,48 +502,46 @@ The registry uses **STP** to serve and synchronize tables as **append-only chang
 - **Delta sync** (`since_id`) and **gap recovery**  
 - **Idempotent processing** (clients tolerate duplicates)
 
-Participants MAY also expose **STP Notify URLs** to announce new tables or signal table updates.
+Participants MAY expose **Notify URLs** (**NURLs**) that peers POST to when a new **State URL** (**SURL**) is available or when an existing SURL has updates.
 
-**Full spec + reference implementations:** see STP repo.
-
-*In this deck, “STP URL” means a URL that serves STP rows via HTTP GET.*
-
+Link: **[STP spec + reference implementations](https://github.com/alex137/state-transfer-protocol)**.
 
 ---
 
 <a id="endpoint-token-tables"></a>
 
+
 # Appendix: Bootstrap (EMTP Tables)
 
-Participants are providers, payers, and hubs.  
-Participants STP notify the registry root of STPs containing EMTP match tokens.
-These STPs must also take STP notification of Registry Match STPs.
+Participants (providers, payers, sponsors, hubs) publish EMTP match-token tables as STP **State URLs (SURLs)**.
 
-**STP schema:** `emtp_table`  
-`[SeqNo] \t [TS] \t [+/-] \t [URL] \t [EMTP_Tokens...]`
+The registry root is an STP **Notify URL (NURL)**. Participants notify:
+`surl=<EMTP_Table_SURL>&match=<Match_NURL>`
 
-- `URL` uniquely identifies an individual at that participant.
+`match` is the NURL the registry uses to notify the participant of its corresponding streaming **Registry Match SURL**.
+
+**SURL schema:** `emtp_table`  
+`[SeqNo] \t [TS] \t [+/-] \t [Subject_NURL] \t [EMTP_Tokens...]`
+
+- `Subject_NURL`: stable per-person identifier (an NURL) at that participant.
 - `EMTP_Tokens`: whitespace-separated tokens for identifier tuples.
 
-
-
-
 ---
+
 <a id="registry-match-tables"></a>
 
-# Appendix: Registry Match STPs
+# Appendix: Registry Match SURLs
 
 **Crosswalk URLs from matching EMTP tokens**
 
-**STP schema:** `registry_match_stream`  
-`[SeqNo] \t [TS] \t [+/-] \t [Subject_URL] \t [Matched_URLs...]`
+The registry serves participant-specific **match streams** as SURLs.
 
-- `Matched_URLs`: whitespace-separated; matched via EMTP token overlap.
+**SURL schema:** `registry_match_stream`  
+`[SeqNo] \t [TS] \t [+/-] \t [Subject_NURL] \t [Matched_NURLs...]`
 
-**Streams:**
-- **Payer:** `Beneficiary_URL → Hub_User_URLs...`
-- **Provider:** `Patient_URL → Payer_Beneficiary_URLs...`
-- **Hub:** `User_URL → Payer_Beneficiary_URLs...`
+- `Matched_NURLs`: whitespace-separated NURLs matched via EMTP token overlap.
+- **Payers:** hub-user NURLs  
+- **Others:** payer-beneficiary NURLs
 
 Match streams are authoritative for which foreign URLs are in-scope.
 
@@ -498,53 +550,69 @@ Match streams are authoritative for which foreign URLs are in-scope.
 
 # Appendix: Payer Approval Stream Serving
 
-Payers expose **beneficiary URLs** that act as stable entry points for approval state.
+Payers expose **Beneficiary NURLs** as stable entry points for approval state.
 
-- Providers beneficiary URLs redirect to **Provider_STP** streams.
-- Hubs beneficiary URLs redirect to  **Hub_STP** streams.
+Providers/Hubs/Sponsors notify the Beneficiary NURL with a callback `notify=<NURL>`.  
+The payer replies by notifying that callback with a requester-scoped **SURL**.
 
-**Authorization:** Streams MUST scope results to client mTLS identity:
-- Providers see only hubs approved for their patients.
-- Hubs see only approval status for their users.
+Returned SURLs deliver: approved hubs (providers), approval status (hubs), claims (sponsors).  
+SURLs are scoped to requester mTLS identity and may be migrated via re-notify.
 
-Payers should keep Beneficiary_URL redirect stable; migrate streams by issuing new ones for their beneficiaries. 
 
 ---
 
 <a id="beneficiary-endpoint-hub-view"></a>
 
-# Appendix: Hub STPs
+# Appendix: Hub Approval Stream (Hub SURL)
 
-Hubs deliver updates on hub user approval statuses.
+Payers serve these streams to authorized hubs to report user approval status.
 
-**STP schema:** `hub_approval_stream`  
-`[SeqNo] \t [TS] \t [+/-] \t [Hub_User_URL] \t [Status] \t [URL]`
+**SURL schema:** `hub_approval_stream`  
+`[SeqNo] \t [TS] \t [+/-] \t [Hub_User_NURL] \t [Status] \t [Action_URL]`
 
 - `Status ∈ {Pending | Approved | Denied}`
-- `Pending → Payer_Approval_URL`
-- `Approved → FHIR_Plan_URL`
-- `Denied → Reason_URL`
 
-If `FHIR_Plan_URL` changes, hub re-subscribes.  
+- `Pending`: approval UI URL
+- `Approved`: relationship manifest SURL
+- `Denied`: denial/revocation reason URL
+
+If `Manifest_SURL` changes, the hub re-fetches the manifest and updates subscriptions.  
 Delete records + terminate provider subscriptions only when **Denied across all active payers**.
 
 ---
 
 <a id="beneficiary-endpoint-provider-view"></a>
 
-# Appendix: Provider STPs
+# Appendix: Provider SURLs
 
-Provider_STPs deliver updates on patient-approved hubs.
+Provider SURLs deliver patient-approved hub sets.
 
 **STP schema:** `provider_approval_stream`  
-`[SeqNo] \t [TS] \t [+/-] \t [Patient_URL] \t [Hub_User_URLs...]`
+`[SeqNo] \t [TS] \t [+/-] \t [Patient_NURL] \t [Hub_User_NURLs...]`
 
-- `Hub_User_URLs...` is whitespace-separated approved hub URLs.
-- Approval is revoked when a hub disappears from the list.
+- `Hub_User_NURLs...` = whitespace-separated approved hub user NURLs
+- Approval is revoked when a new row omits a hub from the list.
 
-**Semantics**
 - Begin/maintain exchange when a hub appears in the list.
-- Terminate only when the hub drops from **all active payers** lists.
+- Terminate only when the hub is absent from **all active payer** lists.
+
+---
+<a id="sponsor-stp"></a>
+
+# Appendix: Claims SURLs (Claims STP)
+
+Payers expose **Claims SURLs** to hubs and sponsors as an **auditable mirror stream**
+of claim + adjudication state (scoped to requester mTLS identity).
+
+**STP schema:** `claim_event_stream`  
+`[SeqNo] \t [TS] \t [+/-] \t [Claim_ID] \t [Event_Type] \t [URL] \t [Metadata...]`
+- `Event_Type ∈ {submitted | adjudicated | denied | appealed | paid | adjusted | refunded}`
+- `URL` links to payer-hosted claim detail / supporting documentation *(scoped)*
+- `Metadata` MAY include: allowed_amount, patient_responsibility, copay_due, denial_code, provider_id
+
+**Notes**
+- Sponsors can replay claim history and audit changes over time.
+- X12 remains the transaction layer; this is the payer-served **state mirror**.
 
 ---
 
@@ -552,79 +620,36 @@ Provider_STPs deliver updates on patient-approved hubs.
 
 # Appendix: Manifest Exchange
 
-Providers and hubs exchange relationship endpoints via STP manifest tables:
+When a party receives a new approved **Hub_User_NURL** (from a payer), or wants to update relationship endpoints, it sends an STP Notify:
 
-**STP schema ** `endpoint_manifest`: `[SeqNo]\t[TS]\t+\t[endpoint_type]\t[URL]`
+`surl=<Manifest_SURL>&manifest_nurl=<Manifest_NURL>`
 
-**Endpoint types:** `fhir_subscribe` | `fhir_read` | `direct_message` | `notify`
+-	surl: sender’s manifest SURL (relationship endpoints)
+- manifest_nurl: NURL where hub posts its manifest SURL
 
-**Change propagation:** When a participant updates its manifest, it sends an STP Notify to the peer’s `notify` URL with `table=<sender_manifest_url>`. Peers re-GET the manifest (authoritative).
+Last notified surl replaces prior  sender manifest.
 
-Manifests SHOULD include `notify` for change propagation w/o polling.
+**Manifest SURL schema:** `endpoint_manifest`  
+`[SeqNo] \t [TS] \t [+/-] \t [endpoint_type] \t [URL]`
+
+**endpoint_type values:**  
+`fhir_subscribe` | `fhir_read` | `direct_message` | `claims_surl`
+
 Unknown `endpoint_type` values MUST NOT break clients.
 
 ----
 
-<a id="endpoint-manifest-example-1"></a>
+Appendix: Manifest Exchange — Example
 
-# Appendix: Manifest — Example (1/3)
+Provider learns approved Hub_User_NURL
+	1.	Provider notifies hub of provider manifest:
+surl=Provider_Manifest_SURL&manifest_nurl=Provider_Manifest_NURL
+	2.	Hub GETs provider manifest SURL and learns endpoints:
+fhir_read, fhir_subscribe, direct_message, claims_surl
+	3.	Hub replies via provider manifest_nurl:
+surl=Hub_Manifest_SURL&manifest_nurl=Hub_Manifest_NURL
 
-**Goal:** Provider discovers a new `Hub_User_URL` and shares its manifest.
-
-### 1) Provider → Hub (announce + give manifest table)
-
-`POST Hub_User_URL`
-`Content-Type: application/x-www-form-urlencoded`
-
-`table=Provider_Manifest_URL`
-
----
-
-# Appendix: Manifest — Example (2/3)
-
-### 2) Hub → Provider (fetch provider manifest)
-
-`GET Provider_Manifest_URL?since_id=0`
-
-Returns rows:  
-`+ fhir_subscribe   https://prov.com/fhir/sub`  
-`+ fhir_read        https://prov.com/fhir/read`  
-`+ direct_message   https://prov.com/direct`  
-`+ notify           https://prov.com/notify`
-
----
-
-<a id="endpoint-manifest-example-2"></a>
-
-# Appendix: Manifest — Example (3/3)
-
-### 3) Provider → Hub (fetch hub manifest)
-
-`GET Hub_User_URL?since_id=0`
-
-Hub returns its manifest rows (same schema).
-
-### If the hub manifest changes later:
-
-Hub notifies the provider’s notify URL:  
-`POST https://prov.com/notify`
-`table=Hub_Manifest_URL`
-
-Provider re-GETs `Hub_Manifest_URL` *(authoritative)*.
-
----
-
-<a id="direct-message-required-metadata"></a>
-
-# Appendix: Direct Message Metadata (Required)
-
-Direct messages MUST include:
-
-- `message_id`: stable identifier for the message object (may be a URL)
-- `sender_role`: provider | hub | patient | proxy | payer | pharmacy | emergency_provider
-- `message_category`: clinical | scheduling | administrative | billing | coverage | prior_auth | claims | appeal | refill | pharmacy | other
-
-Unknown values MUST be displayed and MUST NOT cause rejection.
+Later: if either manifest moves, sender re-notifies → last notified surl wins.
 
 ----
 
