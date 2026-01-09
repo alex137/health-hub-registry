@@ -416,8 +416,7 @@ Payer investigators request access via a **Consent Request Direct Message** *(Ap
 
 # Benefit: Auditable Claims + Sponsor Oversight
 
-Prior auth is slow because documentation is slow.  
-So are audits and sponsor–carrier disputes.
+When documentation is slow, so are prior auth, audits, and disputes.
 
 With hubs at scale, payers can expose **auditable claim state streams**:
 
@@ -427,31 +426,32 @@ With hubs at scale, payers can expose **auditable claim state streams**:
 - **Sponsor oversight** of TPAs, PBMs, and delegated risk groups  
 - **Reconciliation** between provider billing mirrors and payer adjudication streams  
 
-*X12 remains the transaction layer — this adds an auditable “mirror stream” that makes oversight and disputes deterministic.*
+*Transactions stay X12. Auditable mirror for disputes + oversight.*
 
 **Result:** accountable spend, lower admin cost, fewer drawn-out disputes.
 
 ---
 
-# Benefit: Auditable Billing Mirrors (Low Provider Burden)
+# Benefit: Auditable Billing Mirrors  
 
-Providers already generate claims and patient bills.
-With hubs at scale, they can optionally publish a tiny STP mirror stream of billing events:
-	•	No new claims format — X12 / clearinghouses remain the transaction layer
-	•	Auto-generated from billing systems (or outbound X12 logs)
-	•	Auditable + replayable (“what was billed when, and what changed”)
-	•	Record-linked transparency: bills and denials attach to the clinical context
-	•	Fewer disputes + faster payment (providers, payers, sponsors)
+*Low provider burden. High value for payers, sponsors, and patients.*
 
-Result: billing becomes transparent and stateful — without new workflow burden.
+Providers already generate claims and patient bills.  
+With hubs at scale, they can expose an **auditable mirror** of billing events:
 
-(Optional for providers; high-value for payers/sponsors/patients.)
+- **No new format:** auto-generated from billing systems or outbound X12 logs  
+- **Auditable + replayable:** “what was billed when — and what changed”  
+- **Record-linked transparency:** bills + denials attach to clinical context  
+- **Fewer disputes + faster payment** (providers, payers, sponsors)  
+
+**Result:** billing becomes transparent & stateful — without new workflow burden.
 
 ---
 
-# Provider Messaging -> Record-Linked Collaboration
+# Provider Messaging 
+### Record-Linked Collaboration
 
-When hubs make cross-provider records universal, messaging stops being “fax in disguise.”
+Universal cross-provider records means messaging stops being “fax in disguise.”
 
 **Messages can point to the exact record context:**
 - “Here’s the abnormal lab” *(opens that lab + trend + meds)*
@@ -464,17 +464,16 @@ Providers communicate with **shared context**, not summaries.
 
 ---
 
-# Patient-Scoped Care Channels Across Health Systems
+# Persistent Patient-Scoped Care Channels  
+### Shared-Record Messaging
 
-If providers attach messages to the shared record, every patient gains a persistent care channel:
+- One thread shared across the care team (even across health systems)  
+- Visible to nurses, MAs, care managers, and specialists  
+- Messages persist with the record — not trapped in one portal  
 
-- A single thread shared across the care team (even across health systems)
-- Visible to nurses, MAs, care managers, and specialists involved in care
-- Messages persist with the record — not trapped in one portal
+This creates **common knowledge**: shared record + shared conversation.
 
-This creates **common knowledge**: everyone sees the same aggregate record *and* the same conversation history.
-
-**Result:** care coordination becomes continuous, not episodic.
+**Result:** coordination becomes continuous, not episodic.
 
 ---
 
@@ -495,33 +494,34 @@ because every action is grounded in shared record context.
 ---
 
 <!-- _class: dense -->
-# Benefit: Targeted Direct Messages
+# Benefit: Targeted Messages (TMs)
 
-Today, recalls, safety signals, protocol changes, and research requests are posted to websites — and affected patients/providers often never see them.
+Today, recalls, safety signals, protocol changes, and research requests are posted to websites — and affected patients/providers often never see them.  
+**Targeted Messages (TMs)** solve this.
 
-**Targeted Direct Messages (TDMs)** solve this. They are a Direct Messaging extension where a message is addressed not to a specific recipient, but instead to a deterministic targeting rule (e.g. a boolean predicate of RxNorm, ICD10, timeframe, etc.).
+A TM is addressed to a deterministic targeting rule (RxNorm, ICD10, timeframe, etc.) — not a specific recipient.
 
-Publishers (FDA/CDC / ONC-approved entity) pull the hub list from the registry and send the TDM to each hub. Hubs match locally (possibly using AI to refine) and deliver to the right providers.
+Publishers (FDA / CDC / product developers) pull the hub list from the registry and send the TM to each hub.  Hubs match locally, then **translate the TM into Direct Messages (DMs)** to the right providers and attach to the right records.
 
-**Result:** safety-critical messages reach the right providers (via provenance endpoints) — and attach to the right records — automatically.
+**Result:** safety-critical messages reach the right clinicians automatically.
 
 ---
-<!-- _class: dense -->
+
 # Benefit: Real-Time Real-World Evidence
 
 Research hubs enable near-real-time adverse event capture, real-world controls, and rapid trial recruitment — without years of data-sharing negotiation.
 
-1. Recruit via `research_request` **Targeted Direct Messages** containing a **Consent Request**.
+1. Recruit via `research_request` **Targeted Message Consent Requests**.
 
-2. Upon approval, the user's hub posts a **Consent Grant** (user contact endpoint + identity hashes) to the Consent Request URL.
+2. Upon approval, the user’s hub issues a **Consent Grant** to the research hub.
 
-3. Research hub registers like any other hub; after payer approval, providers deliver records via standard FHIR subscriptions.
+3. After payer confirmation, providers deliver records via standard FHIR subscriptions — and research advances.
 
 ---
 <!-- _class: dense -->
 # Benefit: Gaining Pharmacy Participation
 
-*Medications are the most frequent & error-prone part of care — but today's interoperability layer misses the dispense reality.* Today, neither providers nor hubs can reliably know whether a prescribed med was **filled, substituted, refilled, or abandoned**.
+*Medications are the most frequent & error-prone part of care — but today’s interoperability layer misses the dispense reality.*  Providers and hubs rarely know whether a prescription was **filled, substituted, refilled, or abandoned**.
 
 HHS should require pharmacies to operate as **registry-certified provider-like endpoints**, so hubs can FHIR subscribe and receive:
 
@@ -534,17 +534,16 @@ HHS should require pharmacies to operate as **registry-certified provider-like e
 ---
 
 <!-- _class: cards -->
-# Pharmacy Unlocks: Safety + Automation
+# Pharmacy Unlocks: The Dispense Reality
 
-**Care transitions:** discharge meds become verifiable and shareable → fewer readmissions + reconciliation errors
+Once hubs work reliably across providers, pharmacies can finally plug into the same universal layer — so the record includes what actually happened.
 
-**Prior auth + audits:** medication history and proof-of-fill can be assembled automatically → less documentation churn *(and enables non-adherence detection for high-risk conditions like schizophrenia)*
+- **Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
+- **Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
+- **Targeted safety alerts:** pharmacies + hubs receive Targeted Messages for recalls, safety signals, formulary changes  
+- **Messaging:** record-aware refill + substitution coordination with providers + hub-mediated patients  
 
-**Targeted safety alerts:** pharmacies and hubs should receive **TDMs** for recalls + safety signals + substitution/formulary changes
-
-**Messaging:** pharmacies SHOULD support Direct messaging with providers + hub-mediated patients for refill coordination and substitution clarification
-
-**Bottom line:** Without pharmacy participation, the "universal health hub" is missing the most time-sensitive part of the record.
+**Bottom line:** Universal hub access enables universal pharmacy participation — and access to the most time-sensitive part of the record.
 
 ---
 
@@ -567,15 +566,11 @@ This is a draft in active iteration — I’d love:
 - suggestions to improve the design (technical or policy)  
 - opportunities to walk through it and discuss adoption paths  
 
-**Latest deck + source:**  
-- PDF (latest): **[download](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-deck.pdf)**  
-- Source (Marp): **[health-hub-registry-deck.marp.md](https://github.com/alex137/health-hub-registry/blob/master/deck/health-hub-registry-deck.marp.md)**
+Latest Version Links:
+* **Policy Deck:** [PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-deck.pdf) & [Marp source](https://github.com/alex137/health-hub-registry/blob/master/deck/health-hub-registry-deck.marp.md)
 
----
-# Appendix
+* **Implementation Deck:**  [PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf) & [Marp source](https://github.com/alex137/health-hub-registry/blob/master/deck/health-hub-registry-impl-deck.marp.md)
 
-1. [Common Questions](#common-questions)
-2. [Technical Appendix](#technical-appendix)
 ---
 
 <a id="common-questions"></a>
@@ -977,7 +972,7 @@ Hubs MUST support immediate revocation + audit logging.
 ---
 <a id="tdm-headers"></a>
 
-# Appendix: TDM Required Headers
+# Appendix: TM Required Headers
 
 - `schema_version`: targeting semantics version (e.g., v1)
 - `filter`: deterministic predicate over coded fields *(RxNorm, ICD10/SNOMED, CPT, LOINC, demographics, timeframe)*
