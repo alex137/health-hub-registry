@@ -334,7 +334,7 @@ Payer investigators request access via a **Consent Request Direct Message** *(Ap
 - **Providers:** less doc churn, lower audit burden, less non-payment risk
 - **Payers:** lower admin cost, faster and more consistent decisions
 
-** Bottom line:** Prior-auth relief is a another near-term adoption driver. 
+**Bottom line:** Prior-auth relief is a another near-term adoption driver. 
 
 ---
 
@@ -460,14 +460,14 @@ HHS should require pharmacies to operate as **registry-certified provider-like e
 <!-- _class: cards -->
 # Pharmacy Unlocks: The Dispense Reality
 
-Once hubs work reliably across providers, pharmacies can finally plug into the same universal layer — so the record includes what actually happened.
+Once hubs work reliably across providers, pharmacies can plug into the same universal layer — so the record reflects what actually happened.
 
 - **Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
 - **Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
-- **Targeted safety alerts:** pharmacies + hubs receive Targeted Messages for recalls, safety signals, formulary changes  
+- **Targeted safety alerts:** pharmacies + hubs receive Targeted Messages for recalls + safety signals + formulary changes  
 - **Messaging:** record-aware refill + substitution coordination with providers + hub-mediated patients  
 
-**Bottom line:** Universal hub access enables universal pharmacy participation — and access to the most time-sensitive part of the record.
+**Bottom line:** Universal hub access enables universal pharmacy participation — and the most time-sensitive record data.
 
 ---
 
