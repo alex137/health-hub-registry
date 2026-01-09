@@ -15,12 +15,15 @@ section {
 }
 
 /* Dense slides */
+/* Dense slides */
 section.dense {
   padding: 12px 28px 18px 28px;
-  font-size: 20px;
-  line-height: 1.05;
-  margin-top: 0 !important;
+  font-size: 24px;
+  line-height: 1.15;
 }
+
+section.dense ul { margin-top: 0.25em; }
+section.dense li { margin: 0.15em 0; }
 
 /* Remove extra top margin from first element */
 section > :first-child {
@@ -190,7 +193,7 @@ Millions use Apple Health, Guava, Picnic, OneRecord, and others to:
 
 ---
 
-
+<!-- _class: cards -->
 # The Promise of Hubs At Scale for Payers
 
 **Better outcomes, lower medical + admin cost.**
@@ -232,18 +235,17 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
 
 # healthhubregistry.gov
 
-**A lightweight discovery + authorization layer to makes ideal flow universal.**
+**A lightweight discovery + authorization layer that makes ideal flow universal.**
 
-- The core protocol fits in a handful of appendix slides  
 - The registry never handles PHI — it only routes endpoints + approvals  
-- It relies on two open primitives designed for reuse beyond healthcare:
+- The mechanism is intentionally small and fully specified  
+- Specs + starter code are published — designed to be implemented quickly  
+- Built from two reusable open primitives — invest once, reuse everywhere:
   - **[STP](https://github.com/alex137/state-transfer-protocol):** State Transfer Protocol (streaming tables over HTTP)
   - **[EMTP](https://github.com/alex137/ephemeral-match-token-protocol):** Ephemeral Match Tokens (privacy-preserving matching)
+- **Implementation-ready:** [Implementation spec deck (PDF)](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)
 
-Link: **[Spec + reference implementation](https://github.com/alex137/health-hub-registry)**  
-
-
-**Bottom line:** This is a buildable system, not a research project.
+**Bottom line:** This is buildable now — mostly plumbing, not research.
 
 ----
 
@@ -335,8 +337,7 @@ Payer investigators request access via a **Consent Request Direct Message** *(Ap
 - **Providers:** less doc churn, lower audit burden, less non-payment risk
 - **Payers:** lower admin cost, faster and more consistent decisions
 
-**Bottom line:** Prior-auth relief is a another near-term adoption driver. 
-
+**Bottom line:** Prior-auth relief is a near-term adoption driver.
 ---
 
 # Benefit: Auditable Claims + Sponsor Oversight
@@ -424,9 +425,11 @@ because every action is grounded in shared record context.
 Today, recalls, safety signals, protocol changes, and research requests are posted to websites — and affected patients/providers often never see them.  
 **Targeted Messages (TMs)** solve this.
 
-A TM is addressed to a deterministic targeting rule (RxNorm, ICD10, timeframe, etc.) — not a specific recipient.
 
-Publishers (FDA / CDC / product developers) pull the hub list from the registry and send the TM to each hub.  Hubs match locally, then **translate the TM into Direct Messages (DMs)** to the right providers and attach to the right records.
+A TM targets a rules-based predicate (RxNorm, ICD10, timeframe, etc.) — not a specific recipient.
+
+Publishers (FDA / CDC / product developers) pull the hub list from the registry and send the TM to each hub.  
+Hubs match locally, then translate the TM into Direct Messages to the right clinicians — attached to the right records.
 
 **Result:** safety-critical messages reach the right clinicians automatically.
 
@@ -463,10 +466,10 @@ HHS should require pharmacies to operate as **registry-certified provider-like e
 
 Once hubs work reliably across providers, pharmacies can plug into the same universal layer — so the record reflects what actually happened.
 
-**Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
-**Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
-**Targeted safety alerts:** pharmacies + hubs receive Targeted Messages for recalls + safety signals + formulary changes  
-**Messaging:** record-aware refill + substitution coordination with providers + hub-mediated patients  
+* **Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
+* **Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
+- **Targeted safety alerts:** pharmacies + hubs receive TMs for recalls + safety signals + formulary changes  
+- **Messaging:** record-aware refill + substitution coordination with providers + hub-mediated patients  
 
 **Bottom line:** Universal hub access enables universal pharmacy participation — and the most time-sensitive record data.
 
