@@ -199,8 +199,6 @@ They could unlock even bigger payer value if they were reliable at scale.
 
 # The Promise of Hubs At Scale for Payers
 
-**Better outcomes, lower medical + admin cost.**
-
 - **Lower total cost of care**  
   Better self-care + navigation → fewer avoidable ED visits, better chronic control
 
@@ -226,7 +224,7 @@ They could unlock even bigger payer value if they were reliable at scale.
 - **Bad user flow → no payer pull**  
   Unreliable value → payers won’t subsidize or recommend
 
-- **No payer pull → high CAC → no scale**  
+- **No payer pull → no business model → no scale**  
   Most users won’t pay → hubs can’t reach mass adoption
 
 - **No scale + unclear HIPAA/liability → no provider automation**  
@@ -236,11 +234,11 @@ They could unlock even bigger payer value if they were reliable at scale.
 
 ---
 
-How HHS Can Fix the Flywheel
-
-* A universal approval + discovery flow* 
+# How HHS Can Fix the Flywheel
+## A universal approval + discovery flow* 
 
 HHS enables a registry so hub↔provider discovery is easy and payer approval is portable across providers:
+
 	1.	User registers with a hub
 	2.	Hub redirects to payer for approval
 	3.	User approves hub (revocable)
@@ -250,23 +248,24 @@ HHS enables a registry so hub↔provider discovery is easy and payer approval is
 	
 ---
 
-What HHS Builds: healthhubregistry.gov
+# What HHS Builds: healthhubregistry.gov
 
 * A lightweight discovery + authorization layer that makes the flow universal.* 
 
-	•	Provisional implementation spec published (PDF￼) — designed for fast implementation
-	•	No PHI in the registry: it only routes endpoints + approvals
-	•	No new clinical data standard: uses existing primitives (FHIR + Direct)
-	•	Small mechanism: mostly plumbing, not research
+* Provisional implementation spec published ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) — designed for fast implementation
+* No PHI in the registry: it only routes endpoints + approvals
+* No new clinical data standard: uses existing primitives (FHIR + Direct)
+* Small mechanism: mostly plumbing, not research
 
 **Bottom line:** Buildable now.
+
 ----
 
 <!-- _class: cards -->
 # How Hubs, Payers, and Providers Interface
 
 - **Hubs / Payers / Providers** 
-  - push hashed identifiers for matching to the registry 
+  - publish hashed identifiers (match tokens) to the registry for matching  
 
 - **Payers**
   - provide beneficiary approval + revocation for matched hubs  
@@ -294,10 +293,10 @@ What HHS Builds: healthhubregistry.gov
 # What Universal Hubs Enable (Care)
 Once hubs are universal, care coordination becomes automatic:
 
-* **Shared messaging with record context** across patients, proxies, and providers
-* **Emergency continuity** that actually works
-* **Pharmacy participation** becomes practical
-* **Safety + research outreach** becomes automatic
+* Shared messaging with record context across systems
+* Emergency continuity that actually works
+* Pharmacy participation becomes practical
+* Safety + research outreach becomes automatic
 
 ---
 <!-- _class: cards -->
@@ -314,63 +313,34 @@ Result: one record-aware channel for patients and providers.
 
 ---
 
+
 <!-- _class: dense -->
+
 # Hubs: Proxy + Emergency Access
+*Allergies, meds, directives — and trusted proxies when it matters.*
 
-**Proxy usage:** Hubs may let users designate proxies to approve record exchange and manage care on their behalf — useful for seniors and complex chronic care (ongoing or emergency-only, optionally with delay).
+**Proxy usage:** Hubs let users designate proxies to approve exchange and manage care (ongoing or emergency-only, optionally with delay) — especially useful for seniors and complex chronic care.
 
-**Provider authorization policy:** Hubs may require user confirmation or auto-approve provider requests based on patient preferences + hub policy (e.g., provider reputation, prior relationship, context). Requests using an **emergency provider TLS certificate** may follow a different policy.
+**Access policy:** For normal provider requests, hubs can require user confirmation or auto-approve based on user preferences + hub policy (prior relationship, context, provider reputation).
 
-**Audit + notice:** Hubs log proxy/emergency flows & notify users via multiple channels.
-
-Immediate access to allergies, meds, directives, & proxies drives improves safety in emergencies.
-
----
-
-# Provider Messaging 
-### Record-Linked Collaboration
-
-Universal cross-provider records means messaging stops being “fax in disguise.”
-
-**Messages can point to the exact record context:**
-- “Here’s the abnormal lab” *(opens that lab + trend + meds)*
-- “Why was anticoagulation stopped?” *(opens discharge note + orders)*
-- “Please confirm allergy status” *(opens allergy history + recent reactions)*
-
-Providers communicate with **shared context**, not summaries.
-
-**Result:** fewer mistakes, less back-and-forth, faster decisions.
+**Emergency access:** On requests from registry-certified emergency providers, hubs should:
+- grant immediate access to a limited emergency dataset
+- immediately notify the user and designated emergency proxies via multiple channels,
+- allow emergency proxy access after a configurable delay
+- apply heightened logging + audit trails to deter abuse
 
 ---
+# Provider Messaging
+*Shared record + shared thread across health systems — with AI-ready context.*
 
-# Persistent Patient-Scoped Care Channels  
-### Shared-Record Messaging
+- **Deep-link record context across systems:**  
+  “Here’s the abnormal lab” *(lab + trend + meds)* · “Why stopped anticoag?” *(discharge note + orders)* · “Confirm allergy?” *(allergy history)*
 
-- One thread shared across the care team (even across health systems)  
-- Visible to nurses, MAs, care managers, and specialists  
-- Messages persist with the record — not trapped in one portal  
+- **Persistent shared threads:** conversations live with the aggregate record → **common knowledge** across teams
 
-This creates **common knowledge**: shared record + shared conversation.
+- **AI can actually help:** triage + route, draft replies, monitor labs/refills/transitions, trigger alerts
 
-**Result:** coordination becomes continuous, not episodic.
-
----
-
-# AI-Ready Triage + Coordination
-
-Once messaging is record-linked and shared across the care team:
-
-- AI agents can surface relevant record context directly in the thread
-- Route messages to the right team member automatically
-- Draft replies with one-click send
-- Monitor labs, refills, and transitions and alert when something changes
-
-This enables **automation without fragmentation** — 
-because every action is grounded in shared record context.
-
-**Result:** better outcomes, lower clinician burden, fewer coordination failures.
-
-
+**Result:** fewer callbacks + errors; faster decisions; lower coordination burden.
 
 ---
 
@@ -392,45 +362,43 @@ HHS should require pharmacies to operate as **registry-certified provider-like e
 <!-- _class: dense -->
 # Pharmacy Unlocks: The Dispense Reality
 
-Once hubs work reliably across providers, pharmacies can plug into the same universal layer — so the record reflects what actually happened.
+With dispense status flowing into hubs:
 
 - **Care transitions:** discharge meds become verifiable + shareable → fewer reconciliation errors + readmissions  
 - **Prior auth + audits:** proof-of-fill + med history assemble automatically → less documentation churn  
 - **Targeted safety alerts:** pharmacies + hubs receive TMs for recalls + safety signals + formulary changes  
-- **Messaging:** record-aware refill + sub. coordination w/ providers + patients  
+- **Messaging:** record-aware refill + substitution coordination w/ providers + patients  
 
-**Bottom line:** Universal hub access enables universal pharmacy participation — and access to the most time-sensitive record data.
 ---
 
-
 <!-- _class: dense -->
-# Benefit: Targeted Messages (TMs)
+# Targeted Messages (TMs)
 
 Today, the FDA, CDC, and product developers can’t reliably reach the right patients or clinicians with recalls, safety signals, or protocol changes. They’re limited to website posts and press releases.
 
 **Targeted Messages (TMs)** solve this.
 
-1. TMs target rules (RxNorm, ICD10, timeframe) — not specific recipients.
+1. TMs target rules-based filters (RxNorm, ICD10, timeframe) — not specific recipients.
 2. Publishers pull the hub list from the registry and send the TM to each hub.
-3. Hubs match locally & deliver to the right clinicians — attached to the right records.
+3. Hubs match locally & deliver to the right clinicians — linked to the relevant record.
 
-**Result:** safety-critical outreach reaches the right clinicians automatically and fast.
+**Result:** safety-critical outreach reaches the right clinicians fast — automatically.
 
 *This same mechanism also supports `research_request` recruitment (next slide).*
 
 ---
 
-# Benefit: Real-Time Real-World Evidence
+# Real-Time Real-World Evidence
 
 Research hubs enable near-real-time adverse event capture, real-world controls, and rapid trial recruitment — without years of data-sharing negotiation.
 
-1. Recruit via `research_request` **Targeted Message Consent Requests**.
+1. Recruit via **Targeted Messages** that include a **Consent Request** (opt in to a research hub).
 
-2. Upon approval, the user’s hub issues a **Consent Grant** to the research hub.
+2. If the user approves, their hub sends a **Consent Grant** to the research hub (so it can request payer confirmation).
 
-3. After payer confirmation, providers deliver records via standard FHIR subscriptions — and research advances.
+3. After payer confirmation, providers deliver records via standard FHIR subscriptions — and research can run continuously.
 
-
+**Bottom line:** Research becomes an opt-in default — not a one-off data-sharing project.
 
 ---
 
@@ -459,52 +427,34 @@ Record-aware hubs become the natural place patients manage the **financial side 
 ---
 
 <!-- _class: dense -->
-# Benefit: Speeding Prior Authorization
+# Speeding Prior Authorization
 
 Prior auth delays are mostly **documentation delays** that hubs can solve.
 
-Payer investigators request access via a **Consent Request Direct Message** *(Appendix)*. Upon user approval, hubs issue a **Consent Grant** enabling **time-limited, scoped access** to the aggregate record *solely* for prior-auth and case-level claims review.
+Payer investigators request access via a **Consent Request Direct Message**. Upon user approval, hubs issue a **Consent Grant** enabling **time-limited, scoped access** to the aggregate record *solely* for prior-auth and case-level claims review.
 
 - **Patients:** faster approvals, less stress
 - **Providers:** less doc churn, lower audit burden, less non-payment risk
 - **Payers:** lower admin cost, faster and more consistent decisions
 
-**Bottom line:** Prior-auth relief is a near-term adoption driver.
+*Bottom line:* Prior auth becomes a consent-gated record pull, not weeks of fax-and-callback.
+
 
 ----
 
 <!-- _class: dense -->
-# Benefit: Auditable Claims + Sponsor Oversight
+# Auditable Finance Mirrors  
+*Stateful, replayable billing + claim status — across providers, payers, and sponsors.*
 
-When documentation is slow, so are prior auth, audits, and disputes.
+X12 remains the transaction layer. The registry makes it easy for participants to publish a small **auditable mirror** of finance state:
 
-With hubs at scale, payers can expose **auditable claim state streams**:
+- **Payers publish claim/adjudication mirrors** for **sponsors + providers**
+- **Providers publish billing mirrors** for **payers**
+- **Reconciliation becomes automatic:** “what was billed, what was allowed, what was paid”
+- **Faster audits + disputes:** append-only history, replayable and timestamped
+- **Less waste + friction:** earlier anomaly detection + fewer back-and-forth callbacks
 
-- **Near-real-time lifecycle visibility** (submitted → denied → adjusted → paid)  
-- **Faster audits + dispute resolution** (append-only, replayable history)  
-- **Earlier fraud/waste detection** (duplication, upcoding, contract violations)  
-- **Sponsor oversight** of TPAs, PBMs, and delegated risk groups  
-- **Reconciliation** between provider billing mirrors and payer adjudication streams  
-
-*Transactions stay X12. Auditable mirror for disputes + oversight.*
-
-**Result:** accountable spend, lower admin cost, fewer drawn-out disputes.
-
----
-
-# Benefit: Auditable Billing Mirrors  
-
-*Low provider burden. High value for payers, sponsors, and patients.*
-
-Providers already generate claims and patient bills.  
-With hubs at scale, they can expose an **auditable mirror** of billing events:
-
-- **No new format:** auto-generated from billing systems or outbound X12 logs  
-- **Auditable + replayable:** “what was billed when — and what changed”  
-- **Record-linked transparency:** bills + denials attach to clinical context  
-- **Fewer disputes + faster payment** (providers, payers, sponsors)  
-
-**Result:** billing becomes transparent & stateful — without new workflow burden.
+**Result:** finance becomes transparent and stateful — lower admin cost, fewer disputes, faster payment.
 
 ---
 
