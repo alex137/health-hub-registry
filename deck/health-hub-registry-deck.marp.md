@@ -235,47 +235,40 @@ They could unlock even bigger payer value if they were reliable at scale.
 ---
 <!-- _class: cards -->
 # How HHS Can Fix the Flywheel
-## A universal approval + discovery flow* 
 
-HHS enables a registry so hub↔provider discovery is easy and payer approval is portable across providers:
+*Launch a registry at **healthhubregistry.gov***
+
+Make hub↔provider discovery easy & hub approval portable across providers:
 
 1.	User registers with a hub
-2.	Hub redirects to payer for approval
-3.	User approves hub (revocable)
-4.	Payer pushes approval to the user’s providers
-5.	Providers auto-exchange records + messages with the hub
-6.	Patients get coordinated care; payers cut costs
-	
----
+2.	Hub redirects user to payer for member authorization (PHI access)
+3.	User authorizes hub (revocable)
+4.	Payer publishes authorization to the user’s providers
+5.  Payers share plan / network / cost-sharing data with approved hubs  
+6.	Providers auto-exchange records + messages with the hub
+7.  Patients get coordinated care; payers cut costs
 
-# What HHS Builds: healthhubregistry.gov
-
-* A lightweight discovery + authorization layer that makes the flow universal.* 
-
-* Provisional implementation spec published ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) — designed for fast implementation
-* No PHI in the registry: it only routes endpoints + approvals
-* No new clinical data standard: uses existing primitives (FHIR + Direct)
-* Small mechanism: mostly plumbing, not research
-
-**Bottom line:** Buildable now.
 
 ----
+<!-- _class: dense -->
+# How this registry can work
 
-<!-- _class: cards -->
-# How Hubs, Payers, and Providers Interface
+This provisional spec ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) describes a system that is fast to implement.
 
-- **Hubs / Payers / Providers** 
-  - publish hashed identifiers (match tokens) to the registry for matching  
+**Registry participants (organizations):**
+- Register as **Hub / Payer / Provider / Sponsor** (role-certified)
+- Use a standard algorithm to convert **member/patient identifiers** into **match tokens**
+- Publish rotating match tokens paired with **member tied URLs** to the registry
 
-- **Payers**
-  - provide beneficiary approval + revocation for matched hubs  
-  - share plan / network / cost-sharing data with approved hubs  
+**Registry matches participant URLs based on their rorating tokens (no PHI or NPI):
+- Enables **payers** to discover matched **hub endpoints**
+- Enables **hubs / providers / sponsors** to discover matched **payer endpoints**
 
-- **Providers**
-  - pull each patient’s approved hub list from payers  
-  - exchange FHIR records + Direct messages with approved hubs  
+**Outside the registry:**
+- Providers + hubs **pull approvals from payers** and exchange records/messages via **FHIR + Direct**
+- Payers + sponsors exchange finance state in **X12-compatible mirrors** (transactions stay X12)
 
-- **Hubs** publish provider record-delivery performance reports
+HHS mainly needs to **standardize + certify + enforce** adoption.
 
 ---
 
@@ -283,9 +276,11 @@ HHS enables a registry so hub↔provider discovery is easy and payer approval is
 # Enforcement and Adoption
 ### Make hub exchange enforceable at scale
 
-- Treat payer-confirmed approval as HIPAA safe harbor for PHI exchange
-- Use hub reports to automate information-blocking enforcement at scale
-- Make hubs a covered benefit tied to hub-enabled quality measures
+- Treat **payer-confirmed hub authorization** as a HIPAA safe harbor for PHI exchange
+- Require providers **retrieve approved hubs from payers** and **initiate record exchange** with them 
+- Require hubs to publish **provider record-delivery performance reports**
+- Use hub reports to automate **information-blocking enforcement** at scale
+- Make hubs a **covered benefit** tied to hub-enabled quality measures
 - Allow hub-mediated delivery (SMS, WhatsApp, email) under defined safeguards
 
 ---
