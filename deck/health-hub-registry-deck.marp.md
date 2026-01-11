@@ -196,65 +196,77 @@ They could unlock even bigger payer value if they were reliable at scale.
 ---
 
 <!-- _class: cards -->
+
 # The Promise of Hubs At Scale for Payers
 
 **Better outcomes, lower medical + admin cost.**
 
-- **Lower total cost of care:** better self-management + navigation → fewer avoidable ED visits + better chronic control
-- **Administrative deflection:** shift portal + call-center volume to record-aware self-service workflows
-- **Network + benefit steerage:** guide members in-network with real-time estimates + prior-auth rules
-- **Faster prior auth + claims audits:** records assembled automatically → fewer provider callbacks and faster AI-assisted review
-- **High-risk member support:** proxy/caregiver workflows improve outcomes for seniors and complex chronic populations
+- **Lower total cost of care**  
+  Better self-care + navigation → fewer avoidable ED visits, better chronic control
+
+- **Lower admin cost**  
+  Shift portal + call-center volume to record-aware self-service workflows
+
+- **Better steerage**  
+  Guide in-network care with real-time estimates + prior-auth rules
+
+- **Faster prior auth + audits**  
+  Records assembled automatically → fewer provider callbacks, faster review
+
+- **Risk reduction & prevention**  
+  Caregiver-enabled workflows + early coordination for complex members
 
 ---
-
 <!-- _class: cards -->
 # But the Hub Flywheel Is Broken
 
-- **No provider automation → bad flow:** fragmented portals + inconsistent APIs → incomplete/late records, manual retrieval
-- **Bad flow → high CAC:** payers won't subsidize until value is reliable
-- **High CAC → no scale:** hubs can't reach mass adoption
-- **No scale → no provider automation:** providers won't invest in record exchange, messaging, scheduling
+- **No provider automation → bad user flow**  
+  Fragmented portals + inconsistent APIs → incomplete records, manual retrieval
 
-Providers also need HHS clarity on HIPAA & liability risks before they invest.
+- **Bad user flow → no payer pull**  
+  Unreliable value → payers won’t subsidize or recommend
 
-**Bottom line:** Private actors can't break this flywheel — **HHS can.**
+- **No payer pull → high CAC → no scale**  
+  Most users won’t pay → hubs can’t reach mass adoption
 
----
+- **No scale + unclear HIPAA/liability → no provider automation**  
+  Providers won’t invest in record exchange + messaging needed to fix the flow
 
-# What Ideal Flow Looks Like
-
-1. **User registers with a hub**
-2. **Hub redirects user to payer** to confirm approval
-3. **User approves hub** on payer site (revocable)
-4. **Payer pushes approval** to the user's providers
-5. **Providers auto-exchange records + messages** with the hub
-6. **Patients get coordinated care; payers cut costs.**
-
-**Missing piece:** a registry that makes discovery + authorization universal.
+**Bottom line:** Private actors can’t fix this flywheel — **HHS can.**
 
 ---
 
-# healthhubregistry.gov
+How HHS Can Fix the Flywheel
 
-**A lightweight discovery + authorization layer that makes ideal flow universal.**
+* A universal approval + discovery flow* 
 
-- The registry never handles PHI — it only routes endpoints + approvals  
-- The mechanism is intentionally small (even if the walkthrough is detailed)
-- Specs + starter code are published — designed for fast implementation 
-**[Implementation spec deck (PDF)](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)**
+HHS enables a registry so hub↔provider discovery is easy and payer approval is portable across providers:
+	1.	User registers with a hub
+	2.	Hub redirects to payer for approval
+	3.	User approves hub (revocable)
+	4.	Payer pushes approval to the user’s providers
+	5.	Providers auto-exchange records + messages with the hub
+	6.	Patients get coordinated care; payers cut costs
+	
+---
 
-  
+What HHS Builds: healthhubregistry.gov
 
-**This is buildable now — mostly plumbing, not research.**
+* A lightweight discovery + authorization layer that makes the flow universal.* 
 
+	•	Provisional implementation spec published (PDF￼) — designed for fast implementation
+	•	No PHI in the registry: it only routes endpoints + approvals
+	•	No new clinical data standard: uses existing primitives (FHIR + Direct)
+	•	Small mechanism: mostly plumbing, not research
+
+**Bottom line:** Buildable now.
 ----
 
 <!-- _class: cards -->
+# How Hubs, Payers, and Providers Interface
 
-# Registry Participant Requirements
-
-- **Hubs / Payers / Providers** publish hashed identifiers for matching
+- **Hubs / Payers / Providers** 
+  - push hashed identifiers for matching to the registry 
 
 - **Payers**
   - provide beneficiary approval + revocation for matched hubs  
@@ -264,7 +276,8 @@ Providers also need HHS clarity on HIPAA & liability risks before they invest.
   - pull each patient’s approved hub list from payers  
   - exchange FHIR records + Direct messages with approved hubs  
 
-- **Hubs** publish provider record-delivery performance reports
+- **Hubs** 
+  - publish provider record-delivery performance reports
 
 ---
 
@@ -279,11 +292,12 @@ Providers also need HHS clarity on HIPAA & liability risks before they invest.
 
 ---
 # What Universal Hubs Enable (Care)
+Once hubs are universal, care coordination becomes automatic:
 
-Once hubs work reliably across providers,
-the system gains new capabilities — beyond record access.
-
-Messaging becomes record-linked, emergency continuity works, pharmacy participation becomes practical, and safety + research outreach become automatic.
+* **Shared messaging with record context** across patients, proxies, and providers
+* **Emergency continuity** that actually works
+* **Pharmacy participation** becomes practical
+* **Safety + research outreach** becomes automatic
 
 ---
 <!-- _class: cards -->
@@ -307,9 +321,9 @@ Result: one record-aware channel for patients and providers.
 
 **Provider authorization policy:** Hubs may require user confirmation or auto-approve provider requests based on patient preferences + hub policy (e.g., provider reputation, prior relationship, context). Requests using an **emergency provider TLS certificate** may follow a different policy.
 
-**Audit + notice:** Hubs should log proxy/emergency flows & notify users via multiple channels.
+**Audit + notice:** Hubs log proxy/emergency flows & notify users via multiple channels.
 
-*Immediate access to allergies, meds, directives, & proxies drives improves safety in emergencies.*
+Immediate access to allergies, meds, directives, & proxies drives improves safety in emergencies.
 
 ---
 
