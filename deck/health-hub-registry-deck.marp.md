@@ -236,39 +236,37 @@ They could unlock even bigger payer value if they were reliable at scale.
 <!-- _class: cards -->
 # How HHS Can Fix the Flywheel
 
-*Launch a registry at **healthhubregistry.gov***
+*Launch a registry that makes approved hub↔provider discovery easy:
 
-Make hub↔provider discovery easy & hub approval portable across providers:
-
-1.	User registers with a hub
-2.	Hub redirects user to payer for member authorization (PHI access)
-3.	User authorizes hub (revocable)
-4.	Payer publishes authorization to the user’s providers
-5.  Payers share plan / network / cost-sharing data with approved hubs  
-6.	Providers auto-exchange records + messages with the hub
-7.  Patients get coordinated care; payers cut costs
+1. User registers with a hub to authorize PHI access
+2. Hub redirects user to payer for member confirmation 
+3. User confirmes hub phi authorization (revocable)
+4. Payer publishes authorization to the user’s providers
+5. Payers share plan / network / cost-sharing data with approved hubs  
+6. Providers auto-exchange records + messages with the hub
+7. Patients get coordinated care; payers cut costs
 
 
 ----
 <!-- _class: dense -->
 # How this registry can work
 
-This provisional spec ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) describes a system that is fast to implement.
+The provisional implementation spec ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) describes a system that is fast to implement.
 
-**Registry participants (organizations):**
-- Register as **Hub / Payer / Provider / Sponsor** (role-certified)
-- Use a standard algorithm to convert **member/patient identifiers** into **match tokens**
-- Publish rotating match tokens paired with **member tied URLs** to the registry
+Registry-certified organizations share **token ↔ URL pairings** with registry:
+*	URL: member-scoped service endpoint (actionable, replaceable; not an ID)
+* Token: derived from local identifiers via a **standard time-bounding algorithm** (not an ID)
 
-**Registry matches participant URLs based on their rorating tokens (no PHI or NPI):
+**Registry matches participant endpoints by token overlap (no PHI):**
 - Enables **payers** to discover matched **hub endpoints**
 - Enables **hubs / providers / sponsors** to discover matched **payer endpoints**
 
 **Outside the registry:**
-- Providers + hubs **pull approvals from payers** and exchange records/messages via **FHIR + Direct**
-- Payers + sponsors exchange finance state in **X12-compatible mirrors** (transactions stay X12)
+- **Providers** pull approvals from payers; exchange records + messages with hubs via **FHIR + Direct**
+- **Payers + sponsors** exchange finance state in **X12-compatible mirrors** (transactions stay X12)
 
 HHS mainly needs to **standardize + certify + enforce** adoption.
+
 
 ---
 
@@ -277,7 +275,8 @@ HHS mainly needs to **standardize + certify + enforce** adoption.
 ### Make hub exchange enforceable at scale
 
 - Treat **payer-confirmed hub authorization** as a HIPAA safe harbor for PHI exchange
-- Require providers **retrieve approved hubs from payers** and **initiate record exchange** with them 
+-	Require providers to retrieve approved hubs from payers
+- Require providers to initiate continuous exchange to approved hubs
 - Require hubs to publish **provider record-delivery performance reports**
 - Use hub reports to automate **information-blocking enforcement** at scale
 - Make hubs a **covered benefit** tied to hub-enabled quality measures
@@ -306,16 +305,14 @@ Result: one record-aware channel for patients and providers.
 
 ---
 
-
 <!-- _class: dense -->
-
 # Hubs: Proxy + Emergency Access
 *Allergies, meds, directives — and trusted proxies when it matters.*
 
-**Proxy usage:** Some hubs may let users designate proxies to approve exchange and manage care (ongoing or emergency-only, optionally with delay) — especially useful for seniors and complex chronic care.
+**Proxy usage:** Hubs can let users designate proxies to manage care and approvals (ongoing or emergency-only, optionally with delay) — especially for seniors and complex chronic care.
 
-**Emergencies:** On a request from a registry-certified emergency provider, hubs should:
-- grant immediate access to a user-selecteed minimum emergency dataset
+**Emergencies:** On a request from a **registry-certified emergency provider**, hubs should:
+- grant immediate access to a **user-selected minimum emergency dataset**
 - notify the user and designated emergency proxies via multiple channels
 - allow emergency proxy access after a configured delay
 - apply heightened logging + audit trails to deter abuse
