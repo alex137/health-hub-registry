@@ -273,6 +273,7 @@ All clinical + financial workflows run **between participants** using existing s
 **Providers/hubs:** 
   - Pull approvals from payers; 
   - Exchange records & messaging via **FHIR & Direct**
+  
 **Payers/sponsors/providers:** 
   - Coordinate finance reporting via **X12-compatible mirrors** 
   - Keep transactions in X12
