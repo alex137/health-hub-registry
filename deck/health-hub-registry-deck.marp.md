@@ -255,7 +255,7 @@ This provisional implementation spec ([PDF](https://github.com/alex137/health-hu
 
 Registry-certified organizations share **token ↔ endopint pairings** with registry:
 *	Endpoint: member-scoped service URL (actionable, replaceable; not an ID)
-* Token: derived from local identifiers via **shared time-bounding algorithm** (not an ID)
+* Token: derived from local identifiers by **shared time-bounding algorithm** (not an ID)
 
 **Registry matches participant endpoints by token overlap (no PHI):**
 - Enables **payers** to discover matched **hub endpoints**
@@ -266,17 +266,14 @@ Registry-certified organizations share **token ↔ endopint pairings** with regi
 # Outside the Registry
 
 The registry only enables **discovery + authorization routing**.  
-All clinical + financial workflows run **between participants**.
+All clinical + financial workflows run **between participants** using existing standards:
 
-- **Providers ↔ hubs:** approvals pulled from payers; records + messaging via **FHIR + Direct**
-- **Payers ↔ sponsors/providers:** finance coordination via **X12-compatible mirrors** *(transactions stay X12)*
-
-**Design philosophy:** *compose, don’t replace*  
-- **Reuses:** FHIR, Direct, X12  
-- **Light additions (mostly on hubs):** Targeted Messages + Consent Requests/Grants
+- **Providers ↔ hubs:** 
+  approvals pulled from payers; records + messaging via **FHIR + Direct**
+- **Payers ↔ sponsors/providers:** 
+  finance coordination via **X12-compatible mirrors** *(transactions stay X12)*
 
 HHS mainly needs to **standardize + certify + enforce** adoption.
-
 
 ---
 
