@@ -261,7 +261,7 @@ Registry-certified organizations share **token ↔ endopint URL pairings** with 
 - Enables **payers** to discover matched **hub endpoints**
 - Enables **hubs / providers / sponsors** to discover matched **payer endpoints**
 
-**Privacy property:** the registry never receives demographics or PHI, and the URLs/tokens are time-bounded + replaceable — so they can’t become a persistent identifier.
+**Privacy property:** the registry never receives demographics or PHI. URLs/tokens are time-bounded + replaceable — so can’t become a persistent identifier.
 
 ---
 
