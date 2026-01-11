@@ -251,15 +251,17 @@ They could unlock even bigger payer value if they were reliable at scale.
 <!-- _class: dense -->
 # How this registry can work
 
-This provisional implementation spec ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) is designed for ease of  implemention. It proposes a lightweight system that works as follows:
+This provisional implementation spec ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) is designed for ease of  implemention. It proposes a lightweight system:
 
-Registry-certified organizations share **token ↔ endopint pairings** with registry:
-*	Endpoint: member-scoped service URL (actionable, replaceable; not an ID)
-* Token: derived from local identifiers by **shared time-bounding algorithm** (not an ID)
+Registry-certified organizations share **token ↔ endopint URL pairings** with registry:
+*	Endpoint URL: member-scoped service URL (actionable, replaceable)
+* Token: derived from local identifiers using a **shared time-bounding algorithm** 
 
 **Registry matches participant endpoints by token overlap (no PHI):**
 - Enables **payers** to discover matched **hub endpoints**
 - Enables **hubs / providers / sponsors** to discover matched **payer endpoints**
+
+**Privacy property:** the registry never receives demographics or PHI, and the URLs/tokens are time-bounded + replaceable — so they can’t become a persistent identifier.
 
 ---
 
@@ -269,9 +271,9 @@ The registry only enables **discovery + authorization routing**.
 All clinical + financial workflows run **between participants** using existing standards:
 
 - **Providers ↔ hubs:** 
-  approvals pulled from payers; records + messaging via **FHIR + Direct**
+  Approvals pulled from payers; records + messaging via **FHIR + Direct**
 - **Payers ↔ sponsors/providers:** 
-  finance coordination via **X12-compatible mirrors** *(transactions stay X12)*
+  Finance coordination via **X12-compatible mirrors** *(transactions stay X12)*
 
 HHS mainly needs to **standardize + certify + enforce** adoption.
 
