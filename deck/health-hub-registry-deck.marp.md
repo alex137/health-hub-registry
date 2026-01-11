@@ -249,11 +249,9 @@ They could unlock even bigger payer value if they were reliable at scale.
 
 ----
 <!-- _class: dense -->
-# How this registry can work
+# A Lightweight Registry System ([spec PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf))
 
-This provisional implementation spec ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) proposes a lightweight system:
-
-**Registry-certified organizations share *token ↔ endpoint URL* pairings with registry:**
+**Registry-certified organizations share *token ↔ endpoint URL* pairs with registry:**
 *	**Endpoint URL:** member-scoped service URL (actionable, replaceable)
 * **Token:** derived from local identifiers using a **shared time-bounding algorithm** 
 
@@ -261,7 +259,7 @@ This provisional implementation spec ([PDF](https://github.com/alex137/health-hu
 - **Payers** discover only matched **hub endpoints**
 - **Hubs / providers / sponsors** to discover only matched **payer endpoints**
 
-**Privacy property:** Registry never gets demographics or PHI. URLs/tokens are time-bounded + replaceable — so can’t become persistent identifiers. Comms are all mTLS with short-lived certs.  
+**Privacy property:** Registry never gets demographics or PHI. URLs/tokens are time-bounded + replaceable — so can’t be persistent identifiers. Comms are all mTLS with short-lived certs.  
 
 ---
 
