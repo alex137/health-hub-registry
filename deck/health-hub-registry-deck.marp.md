@@ -268,15 +268,15 @@ Registry-certified organizations share **token ↔ endopint URL pairings** with 
 # Outside the Registry
 
 The registry only enables **discovery + authorization routing**.  
-All clinical + financial workflows run **between participants** using existing standards:
+All clinical + financial workflows run **between participants** using existing standards.
 
-**Providers/hubs:** 
+**Providers & hubs:** 
   - Pull approvals from payers; 
   - Exchange records & messaging via **FHIR & Direct**
   
-**Payers/sponsors/providers:** 
-  - Coordinate finance reporting via **X12-compatible mirrors** 
-  - Keep transactions in X12
+**Payers, sponsors, & providers:** 
+  - Coordinate finance reporting via **X12-derived auditable mirrors** 
+  - Keep transactions in X12 
 
 HHS mainly needs to **standardize + certify + enforce** adoption.
 
