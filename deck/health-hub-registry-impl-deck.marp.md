@@ -179,7 +179,30 @@ These slides describe the protocol in implementer-ready form.
 January 2026
 
 ----
+# A Good Reusable Foundation
 
+These primitives generalize beyond healthcare — and keep implementation lightweight.
+
+- **[STP](https://github.com/alex137/state-transfer-protocol):** auditable state sync + reliable notifications (no brokers)  
+- **[EMTP](https://github.com/alex137/ephemeral-match-token-protocol):** matching without demographics (no national patient ID)
+
+**Result:** one small toolkit for registries, manifests, approvals, and audit streams.
+
+----
+# Terms (SURLs + NURLs)
+
+To keep the protocol compact, we use two STP URL roles:
+
+- **SURL (State URL):** a URL you **GET** to read a streaming STP table  
+- **NURL (Notify URL):** a URL you **POST** to send an STP notification
+
+**Notify format:** `surl=<SURL>&<event>=<NURL>`
+
+Notifications are idempotent and can include:
+- an optional **SURL** to follow, and/or
+- one or more callback **NURLs** (`match`, `manifest`, `grant`, etc.)
+
+---
 <a id="appendix-map"></a>
 
 # System Map (How the Pieces Fit)
@@ -194,7 +217,7 @@ Registry matches token overlap → serves participant match streams (SURLs)
 Participants follow payer beneficiary NURLs → receive scoped approval SURLs
 
 4) **Connect + Exchange (Manifests + Data Plane)**  
-Approved parties exchange manifests (SURL↔NURL) → FHIR + Direct (+ optional claims)
+Approved parties exchange manifests (SURL↔NURL) → FHIR + Direct Messages + Financial Flows (format specified here)
 
 ---
 <a id="protocol-assumptions"></a>
@@ -203,12 +226,10 @@ Approved parties exchange manifests (SURL↔NURL) → FHIR + Direct (+ optional 
 
 - All system-to-system communication uses **HTTPS + mTLS**.
 - Participants are authorized by **certificate Policy OIDs** (role-based certs).
-- **[EMTP](https://github.com/alex137/ephemeral-match-token-protocol/)** provides privacy-preserving identity matching (token overlap; rotating keys).
-- **[STP](https://github.com/alex137/state-transfer-protocol)** is the control-plane primitive (streaming state tables + notifications).
+- **EMTP** is used for privacy-preserving matching (token overlap; rotating keys).
+- **STP** is used for control-plane state + notifications (tables over HTTP).
 - **FHIR + Direct** are the data-plane primitives (records + messaging).
 - Missing payer endpoints or outages are **not revocations**; last known status remains valid until explicitly updated.
-
-
 
 ---
 

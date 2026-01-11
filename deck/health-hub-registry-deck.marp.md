@@ -181,7 +181,7 @@ January 2026
 
 # Consumer Health Hubs in the Market
 
-These hubs are already creating patient value — and they could unlock even bigger payer value if they were reliable at scale.
+These hubs are already creating patient value
 
 Millions use Apple Health, Guava, Picnic, OneRecord, and others to:
 
@@ -190,6 +190,8 @@ Millions use Apple Health, Guava, Picnic, OneRecord, and others to:
 - **Enable access** to async care, virtual visits, and home diagnostics  
 - **Keep clinicians informed** (especially in transitions & emergencies)  
 - **Support proxies** for seniors and complex chronic care  
+
+They could unlock even bigger payer value if they were reliable at scale.
 
 ---
 
@@ -214,7 +216,7 @@ Millions use Apple Health, Guava, Picnic, OneRecord, and others to:
 - **High CAC → no scale:** hubs can't reach mass adoption
 - **No scale → no provider automation:** providers won't invest in record exchange, messaging, scheduling
 
-Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsibility) before they invest.
+Providers also need HHS clarity on HIPAA & liability risks before they invest.
 
 **Bottom line:** Private actors can't break this flywheel — **HHS can.**
 
@@ -242,46 +244,52 @@ Providers also need HHS clarity on trust/liability (HIPAA, provenance, responsib
 - Specs + starter code are published — designed for fast implementation 
 **[Implementation spec deck (PDF)](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)**
 
-- Built using two reusable open primitives — invest once, reuse everywhere:
-  - **[STP](https://github.com/alex137/state-transfer-protocol):** auditable state sync + reliable notifications (no brokers)
-  - **[EMTP](https://github.com/alex137/ephemeral-match-token-protocol):** matching without demographics (no national patient ID)
   
 
-**Bottom line:** This is buildable now — mostly plumbing, not research.
+**This is buildable now — mostly plumbing, not research.**
 
 ----
 
 <!-- _class: cards -->
+
 # Registry Participant Requirements
 
-- Hubs/payers/providers post hashed identifiers for patient matching
-- Beneficiaries approve/revoke matched hub PHI access via their payer
-- Payers share plan + network + cost sharing data with approved hubs
-- Providers obtain their patients' approved hubs from their payers
-- Providers & approved hubs exchange FHIR records + Direct messages
-- Hubs post provider record-delivery performance reports
+- **Hubs / Payers / Providers** publish hashed identifiers for matching
+
+- **Payers**
+  - provide beneficiary approval + revocation for matched hubs  
+  - share plan / network / cost-sharing data with approved hubs  
+
+- **Providers**
+  - pull each patient’s approved hub list from payers  
+  - exchange FHIR records + Direct messages with approved hubs  
+
+- **Hubs** publish provider record-delivery performance reports
 
 ---
 
 <!-- _class: cards -->
 # Enforcement and Adoption
-
-- Registry never handles PHI
+### Make hub exchange enforceable at scale
 
 - Treat payer-confirmed approval as HIPAA safe harbor for PHI exchange
-
 - Use hub reports to automate information-blocking enforcement at scale
-
 - Make hubs a covered benefit tied to hub-enabled quality measures
-
-**Bottom line:** Payment incentives + scalable enforcement can create the first universal, patient-controlled interoperability layer.
+- Allow hub-mediated delivery (SMS, WhatsApp, email) under defined safeguards
 
 ---
+# What Universal Hubs Enable (Care)
 
+Once hubs work reliably across providers,
+the system gains new capabilities — beyond record access.
+
+Messaging becomes record-linked, emergency continuity works, pharmacy participation becomes practical, and safety + research outreach become automatic.
+
+---
 <!-- _class: cards -->
 # Hubs as the Primary Patient Channel
 
-HHS should also grant safe harbor for hub-mediated delivery (SMS, WhatsApp, email) under defined safeguards. Authorized, record-aware hubs become the default coordination channel — replacing portals.
+Record-aware hubs become the default coordination channel — replacing portals.
 
 * **Unified threads:** persistent hub-mediated conversations across providers 
 * **Care coordination:** scheduling, referrals, transitions, discharge follow-up
@@ -289,29 +297,6 @@ HHS should also grant safe harbor for hub-mediated delivery (SMS, WhatsApp, emai
 * **Coverage workflows:** prior-auth status, benefits questions, appeals
 
 Result: one record-aware channel for patients and providers.
-
----
-# Patient Channel + Financial Channel
-
-Once hubs are authorized and reliably record-aware, they become the natural place patients manage the **financial side of care** — with the same context as the clinical record.
-
-- **Unified out-of-pocket tracking** across providers + pharmacies  
-- **Record-linked bills + explanations** (“what was this charge for?”)
-- **Claim status + responsibility updates** (denied, adjusted, what you owe)
-- **Appeals + disputes** with the right clinical context attached  
-- **Payment plans + financing** (HSA, employer benefits, charity care routing)
-
-**Result:** patients manage costs in real time, with full record context.
-
----
-# What Universal Hubs Enable
-
-Once hubs work reliably across providers,
-the system gains new capabilities — beyond record access.
-
-Emergency continuity, faster prior auth, safety alerts, real-world evidence,
-and pharmacy integration all become automatic.
-
 
 ---
 
@@ -322,59 +307,9 @@ and pharmacy integration all become automatic.
 
 **Provider authorization policy:** Hubs may require user confirmation or auto-approve provider requests based on patient preferences + hub policy (e.g., provider reputation, prior relationship, context). Requests using an **emergency provider TLS certificate** may follow a different policy.
 
-**Audit + notice:** Hubs should log proxy/emergency flows & notify users via all channels.
+**Audit + notice:** Hubs should log proxy/emergency flows & notify users via multiple channels.
 
-*Immediate access to allergies, meds, directives, & proxies drives adoption.*
-
----
-
-<!-- _class: dense -->
-# Benefit: Speeding Prior Authorization
-
-Prior auth delays are mostly **documentation delays** that hubs can solve.
-
-Payer investigators request access via a **Consent Request Direct Message** *(Appendix)*. Upon user approval, hubs issue a **Consent Grant** enabling **time-limited, scoped access** to the aggregate record *solely* for prior-auth and claims-audit review.
-
-- **Patients:** faster approvals, less stress
-- **Providers:** less doc churn, lower audit burden, less non-payment risk
-- **Payers:** lower admin cost, faster and more consistent decisions
-
-**Bottom line:** Prior-auth relief is a near-term adoption driver.
-
-----
-
-<!-- _class: dense -->
-# Benefit: Auditable Claims + Sponsor Oversight
-
-When documentation is slow, so are prior auth, audits, and disputes.
-
-With hubs at scale, payers can expose **auditable claim state streams**:
-
-- **Near-real-time lifecycle visibility** (submitted → denied → adjusted → paid)  
-- **Faster audits + dispute resolution** (append-only, replayable history)  
-- **Earlier fraud/waste detection** (duplication, upcoding, contract violations)  
-- **Sponsor oversight** of TPAs, PBMs, and delegated risk groups  
-- **Reconciliation** between provider billing mirrors and payer adjudication streams  
-
-*Transactions stay X12. Auditable mirror for disputes + oversight.*
-
-**Result:** accountable spend, lower admin cost, fewer drawn-out disputes.
-
----
-
-# Benefit: Auditable Billing Mirrors  
-
-*Low provider burden. High value for payers, sponsors, and patients.*
-
-Providers already generate claims and patient bills.  
-With hubs at scale, they can expose an **auditable mirror** of billing events:
-
-- **No new format:** auto-generated from billing systems or outbound X12 logs  
-- **Auditable + replayable:** “what was billed when — and what changed”  
-- **Record-linked transparency:** bills + denials attach to clinical context  
-- **Fewer disputes + faster payment** (providers, payers, sponsors)  
-
-**Result:** billing becomes transparent & stateful — without new workflow burden.
+*Immediate access to allergies, meds, directives, & proxies drives improves safety in emergencies.*
 
 ---
 
@@ -421,34 +356,10 @@ because every action is grounded in shared record context.
 
 **Result:** better outcomes, lower clinician burden, fewer coordination failures.
 
----
 
-<!-- _class: dense -->
-# Benefit: Targeted Messages (TMs)
-
-Today, recalls, safety signals, protocol changes, and research requests are posted to websites — and affected patients/providers often never see them.  
-**Targeted Messages (TMs)** solve this.
-
-A TM targets a rules-based predicate (RxNorm, ICD10, timeframe, etc.) — not a specific recipient.
-
-Publishers (FDA / CDC / product developers) pull the hub list from the registry and send the TM to each hub.  
-Hubs match locally, then translate the TM into Direct Messages to the right clinicians — attached to the right records.
-
-**Result:** safety-critical messages reach the right clinicians automatically.
 
 ---
 
-# Benefit: Real-Time Real-World Evidence
-
-Research hubs enable near-real-time adverse event capture, real-world controls, and rapid trial recruitment — without years of data-sharing negotiation.
-
-1. Recruit via `research_request` **Targeted Message Consent Requests**.
-
-2. Upon approval, the user’s hub issues a **Consent Grant** to the research hub.
-
-3. After payer confirmation, providers deliver records via standard FHIR subscriptions — and research advances.
-
----
 <!-- _class: dense -->
 # Benefit: Gaining Pharmacy Participation
 
@@ -475,6 +386,111 @@ Once hubs work reliably across providers, pharmacies can plug into the same univ
 - **Messaging:** record-aware refill + sub. coordination w/ providers + patients  
 
 **Bottom line:** Universal hub access enables universal pharmacy participation — and access to the most time-sensitive record data.
+---
+
+
+<!-- _class: dense -->
+# Benefit: Targeted Messages (TMs)
+
+Today, the FDA, CDC, and product developers can’t reliably reach the right patients or clinicians with recalls, safety signals, or protocol changes. They’re limited to website posts and press releases.
+
+**Targeted Messages (TMs)** solve this.
+
+1. TMs target rules (RxNorm, ICD10, timeframe) — not specific recipients.
+2. Publishers pull the hub list from the registry and send the TM to each hub.
+3. Hubs match locally & deliver to the right clinicians — attached to the right records.
+
+**Result:** safety-critical outreach reaches the right clinicians automatically and fast.
+
+*This same mechanism also supports `research_request` recruitment (next slide).*
+
+---
+
+# Benefit: Real-Time Real-World Evidence
+
+Research hubs enable near-real-time adverse event capture, real-world controls, and rapid trial recruitment — without years of data-sharing negotiation.
+
+1. Recruit via `research_request` **Targeted Message Consent Requests**.
+
+2. Upon approval, the user’s hub issues a **Consent Grant** to the research hub.
+
+3. After payer confirmation, providers deliver records via standard FHIR subscriptions — and research advances.
+
+
+
+---
+
+# What Universal Hubs Enable (Finance)
+
+Once hubs are reliably record-aware,
+money stops being “months later” — it becomes part of care.
+
+Prior auth, billing, disputes, audits, and sponsor oversight become
+stateful, replayable, and attachable to clinical context.
+
+---
+
+# Patient Channel + Financial Channel
+
+Record-aware hubs become the natural place patients manage the **financial side of care** — with the same context as the clinical record.
+
+- **Unified out-of-pocket tracking** across providers + pharmacies  
+- **Record-linked bills + explanations** (“what was this charge for?”)
+- **Claim status + responsibility updates** (denied, adjusted, what you owe)
+- **Appeals + disputes** with the right clinical context attached  
+- **Payment plans + financing** (HSA, employer benefits, charity care routing)
+
+**Result:** patients manage costs in real time, with full record context.
+
+---
+
+<!-- _class: dense -->
+# Benefit: Speeding Prior Authorization
+
+Prior auth delays are mostly **documentation delays** that hubs can solve.
+
+Payer investigators request access via a **Consent Request Direct Message** *(Appendix)*. Upon user approval, hubs issue a **Consent Grant** enabling **time-limited, scoped access** to the aggregate record *solely* for prior-auth and case-level claims review.
+
+- **Patients:** faster approvals, less stress
+- **Providers:** less doc churn, lower audit burden, less non-payment risk
+- **Payers:** lower admin cost, faster and more consistent decisions
+
+**Bottom line:** Prior-auth relief is a near-term adoption driver.
+
+----
+
+<!-- _class: dense -->
+# Benefit: Auditable Claims + Sponsor Oversight
+
+When documentation is slow, so are prior auth, audits, and disputes.
+
+With hubs at scale, payers can expose **auditable claim state streams**:
+
+- **Near-real-time lifecycle visibility** (submitted → denied → adjusted → paid)  
+- **Faster audits + dispute resolution** (append-only, replayable history)  
+- **Earlier fraud/waste detection** (duplication, upcoding, contract violations)  
+- **Sponsor oversight** of TPAs, PBMs, and delegated risk groups  
+- **Reconciliation** between provider billing mirrors and payer adjudication streams  
+
+*Transactions stay X12. Auditable mirror for disputes + oversight.*
+
+**Result:** accountable spend, lower admin cost, fewer drawn-out disputes.
+
+---
+
+# Benefit: Auditable Billing Mirrors  
+
+*Low provider burden. High value for payers, sponsors, and patients.*
+
+Providers already generate claims and patient bills.  
+With hubs at scale, they can expose an **auditable mirror** of billing events:
+
+- **No new format:** auto-generated from billing systems or outbound X12 logs  
+- **Auditable + replayable:** “what was billed when — and what changed”  
+- **Record-linked transparency:** bills + denials attach to clinical context  
+- **Fewer disputes + faster payment** (providers, payers, sponsors)  
+
+**Result:** billing becomes transparent & stateful — without new workflow burden.
 
 ---
 
