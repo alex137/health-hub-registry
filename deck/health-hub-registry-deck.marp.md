@@ -251,19 +251,29 @@ They could unlock even bigger payer value if they were reliable at scale.
 <!-- _class: dense -->
 # How this registry can work
 
-The provisional implementation spec ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) describes a system that is fast to implement.
+This provisional implementation spec ([PDF](https://github.com/alex137/health-hub-registry/releases/latest/download/health-hub-registry-impl-deck.pdf)) is designed for ease of  implemention. It proposes a lightweight system that works as follows:
 
-Registry-certified organizations share **token ↔ URL pairings** with registry:
-*	URL: member-scoped service endpoint (actionable, replaceable; not an ID)
-* Token: derived from local identifiers via a **standard time-bounding algorithm** (not an ID)
+Registry-certified organizations share **token ↔ endopint pairings** with registry:
+*	Endpoint: member-scoped service URL (actionable, replaceable; not an ID)
+* Token: derived from local identifiers via **shared time-bounding algorithm** (not an ID)
 
 **Registry matches participant endpoints by token overlap (no PHI):**
 - Enables **payers** to discover matched **hub endpoints**
 - Enables **hubs / providers / sponsors** to discover matched **payer endpoints**
 
-**Outside the registry:**
-- **Providers** pull approvals from payers; exchange records + messages with hubs via **FHIR + Direct**
-- **Payers + sponsors** exchange finance state in **X12-compatible mirrors** (transactions stay X12)
+---
+
+# Outside the Registry
+
+The registry only enables **discovery + authorization routing**.  
+All clinical + financial workflows run **between participants**.
+
+- **Providers ↔ hubs:** approvals pulled from payers; records + messaging via **FHIR + Direct**
+- **Payers ↔ sponsors/providers:** finance coordination via **X12-compatible mirrors** *(transactions stay X12)*
+
+**Design philosophy:** *compose, don’t replace*  
+- **Reuses:** FHIR, Direct, X12  
+- **Light additions (mostly on hubs):** Targeted Messages + Consent Requests/Grants
 
 HHS mainly needs to **standardize + certify + enforce** adoption.
 
