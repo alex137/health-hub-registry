@@ -259,7 +259,7 @@ They could unlock even bigger payer value if they were reliable at scale.
 - **Payers** discover only matched **hub endpoints**
 - **Hubs / providers / sponsors** to discover only matched **payer endpoints**
 
-**Privacy property:** Registry never gets demographics or PHI. URLs/tokens are time-bounded + replaceable — so can’t be persistent identifiers. Comms are all mTLS with short-lived certs.  
+**Privacy property:** Registry never gets demographics or PHI. URLs/tokens are time-bounded + replaceable — so can’t be persistent identifiers. Comms are all mTLS with short-lived certs == so they stay private.
 
 ---
 
