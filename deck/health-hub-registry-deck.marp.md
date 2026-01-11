@@ -272,6 +272,7 @@ All clinical + financial workflows run **between participants** using existing s
 
 **Providers & hubs:** Pull approvals from payers; records + messaging via **FHIR + Direct**
 **Payers/sponsors/providers:** Finance coordination via **X12-compatible mirrors** 
+  
   (transactions stay X12)
 
 HHS mainly needs to **standardize + certify + enforce** adoption.
